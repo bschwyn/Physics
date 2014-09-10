@@ -1,0 +1,2744 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 9.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[    106094,       2735]
+NotebookOptionsPosition[    101968,       2596]
+NotebookOutlinePosition[    102504,       2618]
+CellTagsIndexPosition[    102461,       2615]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["\<\
+Calculation of Franck-Condon Factors\
+\>", "Subtitle",
+ CellChangeTimes->{{3.573548737233795*^9, 3.5735487654106126`*^9}}],
+
+Cell["Ben Schwyn", "Subsubtitle",
+ CellChangeTimes->{{3.573840306038808*^9, 3.573840308501562*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["Introduction", "Subsection",
+ CellChangeTimes->{{3.5738402093214006`*^9, 3.57384021080955*^9}}],
+
+Cell[TextData[{
+ "Spectroscopy is an important tool, and has been a great success for the \
+application and testing of quantum theory.  Spectroscopy is a very precise \
+way of discovering the elemental and molecular components of unknown \
+substances in many fields from environmental science and biology labs, to \
+advanced materials research. On known substances, spectroscopy can help \
+determine the energy levels  and physical structure of atoms and molecules, \
+allowing a better understanding of the processes reactions they go through. \
+Throughout its history, spectroscopy has given inspiration and tests to \
+quantum theory, beginning with the emission spectra of hydrogen and its \
+subsequent explanation through the Bohr model.\n\nSpectroscopy works by \
+observing the absorption or emission of light from the absorption or release \
+of energy related to the difference in energy levels. For individual atoms, \
+this is usually the difference between the ground state valence electrons and \
+excited electron states, usually resulting in energies corresponding to \
+visual wavelengths. Higher energy wavelengths are often observed through the \
+excitement of interior electrons.\n\t\nIn molecules, the spatial wavefunction \
+of the nuclei becomes important. Different energy levels of this wavefunction \
+determine the amount of vibration or relational movement between nuclei. In \
+what is called the Born-Oppenheimer Approximation, there is the assumption \
+that electronic and nuclear wavefunctions do not depend on the velocities of \
+the electrons and nulcei, in which case the molecular wavefunction (ignoring \
+spin) is separable:\n\t\n\t",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox["\[CapitalPsi]", "Total"], "=", 
+    RowBox[{
+     SubscriptBox["\[Psi]", "electronic"], "*", 
+     SubscriptBox["\[Psi]", "nuclear"]}]}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ "\n\nThe nuclear component of the wavefunction includes vibrational, \
+translational and rotational components, which can often be factored.\n\n",
+ Cell[BoxData[
+  FormBox[
+   TagBox[
+    RowBox[{
+     RowBox[{
+      SubscriptBox["\[Psi]", 
+       RowBox[{"e", "l", "e", "c", "t", "r", "o", "n", "i", "c"}]], "*", 
+      SubscriptBox["\[Psi]", 
+       RowBox[{"n", "u", "c", "l", "e", "a", "r"}]]}], "=", 
+     RowBox[{
+      SubscriptBox["\[Psi]", 
+       RowBox[{"e", "l", "e", "c", "t", "r", "o", "n", "i", "c"}]], "*", 
+      SubscriptBox["\[Psi]", 
+       RowBox[{
+       "t", "r", "a", "n", "s", "l", "a", "t", "i", "o", "n", "a", "l"}]], 
+      "*", 
+      SubscriptBox["\[Psi]", 
+       RowBox[{"r", "o", "t", "a", "t", "i", "o", "n", "a", "l"}]], "*", 
+      SubscriptBox["\[Psi]", 
+       RowBox[{"v", "i", "b", "r", "a", "t", "i", "o", "n", "a", "l"}]]}]}],
+    "MathMLPresentationTag",
+    AutoDelete->True], TraditionalForm]]],
+ "\n\nRoughly, transitions between energy levels in these different regions \
+correspond to different energy photons. Electronic excitations are often \
+visual, UV, or X-ray depending on the shell of the electron. Rotational \
+energies are related to microwaves.\n\nClosely related to the Born \
+Oppenheimer Approximation is the Franck Condon Principle, which states that \
+optical transitions in the electronic wavefunction occur fast enough that the \
+nuclear wavefunction is not affected, and the vibrational transitions can be \
+considered separately.\n\nWhen considering the probability of an interaction \
+with a photon and an electron in a molecule, the probability of the \
+transition is given by\n\n",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{"P", "(", 
+     RowBox[{
+      StyleBox["\[CapitalPsi]",
+       FontFamily->"Times",
+       FontWeight->"Plain",
+       FontSlant->"Plain"], "\[RightArrow]", 
+      SuperscriptBox[
+       StyleBox["\[CapitalPsi]",
+        FontFamily->"Times",
+        FontWeight->"Plain",
+        FontSlant->"Plain"], "'"]}], ")"}], "=", 
+    SuperscriptBox[
+     RowBox[{"\[LeftBracketingBar]", 
+      RowBox[{"\[LeftAngleBracket]", 
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          StyleBox["\[CapitalPsi]",
+           FontFamily->"Times",
+           FontWeight->"Plain",
+           FontSlant->"Plain"], "(", 
+          RowBox[{
+           RowBox[{
+            SubscriptBox[
+             StyleBox["r",
+              FontFamily->"Times",
+              FontWeight->"Bold",
+              FontSlant->"Plain"], "1"], 
+            SubscriptBox[
+             StyleBox[
+              RowBox[{"\[Ellipsis]", 
+               StyleBox["r",
+                FontFamily->"Times",
+                FontWeight->"Bold",
+                FontSlant->"Plain"]}]], 
+             StyleBox["N",
+              FontFamily->"Times",
+              FontWeight->"Plain",
+              FontSlant->"Plain"]]}], ",", 
+           RowBox[{
+            SubscriptBox[
+             StyleBox["R",
+              FontFamily->"Times",
+              FontWeight->"Bold",
+              FontSlant->"Plain"], "1"], 
+            SubscriptBox[
+             StyleBox[
+              RowBox[{"\[Ellipsis]", 
+               StyleBox["R",
+                FontFamily->"Times",
+                FontWeight->"Bold",
+                FontSlant->"Plain"]}]], 
+             StyleBox["N",
+              FontFamily->"Times",
+              FontWeight->"Plain",
+              FontSlant->"Plain"]]}]}], ")"}], "\[Chi]"}], "|", 
+        RowBox[{
+         StyleBox["\[Mu]",
+          FontFamily->"Times",
+          FontWeight->"Bold",
+          FontSlant->"Italic"], "(", 
+         RowBox[{
+          RowBox[{
+           SubscriptBox[
+            StyleBox["r",
+             FontFamily->"Times",
+             FontWeight->"Bold",
+             FontSlant->"Plain"], "1"], 
+           SubscriptBox[
+            StyleBox[
+             RowBox[{"\[Ellipsis]", 
+              StyleBox["r",
+               FontFamily->"Times",
+               FontWeight->"Bold",
+               FontSlant->"Plain"]}]], 
+            StyleBox["N",
+             FontFamily->"Times",
+             FontWeight->"Plain",
+             FontSlant->"Plain"]]}], ",", 
+          RowBox[{
+           SubscriptBox[
+            StyleBox["R",
+             FontFamily->"Times",
+             FontWeight->"Bold",
+             FontSlant->"Plain"], "1"], 
+           SubscriptBox[
+            StyleBox[
+             RowBox[{"\[Ellipsis]", 
+              StyleBox["R",
+               FontFamily->"Times",
+               FontWeight->"Bold",
+               FontSlant->"Plain"]}]], 
+            StyleBox["N",
+             FontFamily->"Times",
+             FontWeight->"Plain",
+             FontSlant->"Plain"]]}]}], ")"}], "|", 
+        RowBox[{
+         SuperscriptBox[
+          RowBox[{
+           StyleBox["\[CapitalPsi]",
+            FontFamily->"Times",
+            FontWeight->"Plain",
+            FontSlant->"Plain"], "(", 
+           RowBox[{
+            RowBox[{
+             SubscriptBox[
+              StyleBox["r",
+               FontFamily->"Times",
+               FontWeight->"Bold",
+               FontSlant->"Plain"], "1"], 
+             SubscriptBox[
+              StyleBox[
+               RowBox[{"\[Ellipsis]", 
+                StyleBox["r",
+                 FontFamily->"Times",
+                 FontWeight->"Bold",
+                 FontSlant->"Plain"]}]], 
+              StyleBox["N",
+               FontFamily->"Times",
+               FontWeight->"Plain",
+               FontSlant->"Plain"]]}], ",", 
+            RowBox[{
+             SubscriptBox[
+              StyleBox["R",
+               FontFamily->"Times",
+               FontWeight->"Bold",
+               FontSlant->"Plain"], "1"], 
+             SubscriptBox[
+              StyleBox[
+               RowBox[{"\[Ellipsis]", 
+                StyleBox["R",
+                 FontFamily->"Times",
+                 FontWeight->"Bold",
+                 FontSlant->"Plain"]}]], 
+              StyleBox["N",
+               FontFamily->"Times",
+               FontWeight->"Plain",
+               FontSlant->"Plain"]]}]}], ")"}], "'"], 
+         RowBox[{"\[Chi]", "'"}]}]}], "\[RightAngleBracket]"}], 
+      "\[RightBracketingBar]"}], "2"]}], TraditionalForm]]],
+ "\n\nWhere ",
+ StyleBox["\[Mu]",
+  FontWeight->"Bold"],
+ " is the electric dipole operator signifying that a photon, represented \
+classically as electric field, interacts an electron in state \[Psi], and \
+\[Psi]'  is the final state of the electron. ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox[
+     StyleBox["r",
+      FontFamily->"Times",
+      FontWeight->"Bold",
+      FontSlant->"Plain"], "1"], 
+    SubscriptBox[
+     StyleBox[
+      RowBox[{"\[Ellipsis]", 
+       StyleBox["r",
+        FontFamily->"Times",
+        FontWeight->"Bold",
+        FontSlant->"Plain"]}]], 
+     StyleBox["N",
+      FontFamily->"Times",
+      FontWeight->"Plain",
+      FontSlant->"Plain"]]}], TraditionalForm]]],
+ " are the spatial coordinates of the electrons,  ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox[
+     StyleBox["R",
+      FontFamily->"Times",
+      FontWeight->"Bold",
+      FontSlant->"Plain"], "1"], 
+    SubscriptBox[
+     StyleBox[
+      RowBox[{"\[Ellipsis]", 
+       StyleBox["R",
+        FontFamily->"Times",
+        FontWeight->"Bold",
+        FontSlant->"Plain"]}]], 
+     StyleBox["N",
+      FontFamily->"Times",
+      FontWeight->"Plain",
+      FontSlant->"Plain"]]}], TraditionalForm]]],
+ " are the nucleons, and \[Chi]  is the spin of the electrons. Applying the \
+Born Oppenheimer Approximation, and ignoring the rotational and translational \
+components:\n\:f35f\n",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{"P", "(", 
+     RowBox[{
+      StyleBox["\[CapitalPsi]",
+       FontFamily->"Times",
+       FontWeight->"Plain",
+       FontSlant->"Plain"], "\[RightArrow]", 
+      SuperscriptBox[
+       StyleBox["\[CapitalPsi]",
+        FontFamily->"Times",
+        FontWeight->"Plain",
+        FontSlant->"Plain"], "'"]}], ")"}], "=", 
+    SuperscriptBox[
+     RowBox[{"\[LeftBracketingBar]", 
+      RowBox[{"\[LeftAngleBracket]", 
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          SubscriptBox["\[Psi]", "e"], "(", 
+          RowBox[{
+           SubscriptBox[
+            StyleBox["r",
+             FontFamily->"Times",
+             FontWeight->"Bold",
+             FontSlant->"Plain"], "1"], 
+           SubscriptBox[
+            StyleBox[
+             RowBox[{"\[Ellipsis]", 
+              StyleBox["r",
+               FontFamily->"Times",
+               FontWeight->"Bold",
+               FontSlant->"Plain"]}]], 
+            StyleBox["N",
+             FontFamily->"Times",
+             FontWeight->"Plain",
+             FontSlant->"Plain"]]}], ")"}], "\[NonBreakingSpace]", 
+         RowBox[{
+          SubscriptBox["\[Psi]", "v"], "(", 
+          RowBox[{
+           SubscriptBox[
+            StyleBox["R",
+             FontFamily->"Times",
+             FontWeight->"Bold",
+             FontSlant->"Plain"], "1"], 
+           SubscriptBox[
+            StyleBox[
+             RowBox[{"\[Ellipsis]", 
+              StyleBox["R",
+               FontFamily->"Times",
+               FontWeight->"Bold",
+               FontSlant->"Plain"]}]], 
+            StyleBox["N",
+             FontFamily->"Times",
+             FontWeight->"Plain",
+             FontSlant->"Plain"]]}], ")"}], "\[Chi]"}], "|", 
+        StyleBox["\[Mu]",
+         FontFamily->"Times",
+         FontWeight->"Bold",
+         FontSlant->"Italic"], "|", 
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           SubscriptBox["\[Psi]", "e"], "(", 
+           RowBox[{
+            SubscriptBox[
+             StyleBox["r",
+              FontFamily->"Times",
+              FontWeight->"Bold",
+              FontSlant->"Plain"], "1"], 
+            SubscriptBox[
+             StyleBox[
+              RowBox[{"\[Ellipsis]", 
+               StyleBox["r",
+                FontFamily->"Times",
+                FontWeight->"Bold",
+                FontSlant->"Plain"]}]], 
+             StyleBox["N",
+              FontFamily->"Times",
+              FontWeight->"Plain",
+              FontSlant->"Plain"]]}], ")"}], "'"}], 
+         SuperscriptBox[
+          RowBox[{
+           SubscriptBox["\[Psi]", "v"], "(", 
+           RowBox[{
+            SubscriptBox[
+             StyleBox["R",
+              FontFamily->"Times",
+              FontWeight->"Bold",
+              FontSlant->"Plain"], "1"], 
+            SubscriptBox[
+             StyleBox[
+              RowBox[{"\[Ellipsis]", 
+               StyleBox["R",
+                FontFamily->"Times",
+                FontWeight->"Bold",
+                FontSlant->"Plain"]}]], 
+             StyleBox["N",
+              FontFamily->"Times",
+              FontWeight->"Plain",
+              FontSlant->"Plain"]]}], ")"}], "'"], 
+         RowBox[{"\[Chi]", "'"}]}]}], "\[RightAngleBracket]"}], 
+      "\[RightBracketingBar]"}], "2"]}], TraditionalForm]]],
+ "\n\nThe electric field will create a dipole out of the electrons and the \
+nucleons:\n\:f35f\n",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"=", 
+    SuperscriptBox[
+     RowBox[{"\[LeftBracketingBar]", 
+      RowBox[{"\[LeftAngleBracket]", 
+       RowBox[{
+        RowBox[{
+         SubscriptBox["\[Psi]", "e"], 
+         SubscriptBox["\[Psi]", "v"], "\[Chi]"}], "|", 
+        RowBox[{
+         RowBox[{
+          SubscriptBox[
+           StyleBox["\[Mu]",
+            FontFamily->"Times",
+            FontWeight->"Bold",
+            FontSlant->"Italic"], 
+           StyleBox["e",
+            FontFamily->"Times",
+            FontWeight->"Bold",
+            FontSlant->"Italic"]], "(", 
+          RowBox[{
+           SubscriptBox[
+            StyleBox["r",
+             FontFamily->"Times",
+             FontWeight->"Bold",
+             FontSlant->"Plain"], "1"], 
+           SubscriptBox[
+            StyleBox[
+             RowBox[{"\[Ellipsis]", 
+              StyleBox["r",
+               FontFamily->"Times",
+               FontWeight->"Bold",
+               FontSlant->"Plain"]}]], 
+            StyleBox["N",
+             FontFamily->"Times",
+             FontWeight->"Plain",
+             FontSlant->"Plain"]]}], ")"}], "+", 
+         RowBox[{
+          SubscriptBox[
+           StyleBox["\[Mu]",
+            FontFamily->"Times",
+            FontWeight->"Bold",
+            FontSlant->"Italic"], "N"], "(", 
+          RowBox[{
+           SubscriptBox[
+            StyleBox["R",
+             FontFamily->"Times",
+             FontWeight->"Bold",
+             FontSlant->"Plain"], "1"], 
+           SubscriptBox[
+            StyleBox[
+             RowBox[{"\[Ellipsis]", 
+              StyleBox["R",
+               FontFamily->"Times",
+               FontWeight->"Bold",
+               FontSlant->"Plain"]}]], 
+            StyleBox["N",
+             FontFamily->"Times",
+             FontWeight->"Plain",
+             FontSlant->"Plain"]]}], ")"}]}], "|", 
+        RowBox[{
+         SuperscriptBox[
+          RowBox[{
+           RowBox[{
+            SubscriptBox["\[Psi]", "e"], "'"}], 
+           SubscriptBox["\[Psi]", "v"]}], "'"], 
+         RowBox[{"\[Chi]", "'"}]}]}], "\[RightAngleBracket]"}], 
+      "\[RightBracketingBar]"}], "2"]}], TraditionalForm]]],
+ "\n",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox[
+    RowBox[{
+     RowBox[{"=", 
+      RowBox[{"\[LeftBracketingBar]", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"\[LeftAngleBracket]", 
+          RowBox[{
+           RowBox[{
+            SubscriptBox["\[Psi]", "e"], 
+            SubscriptBox["\[Psi]", "v"], "\[Chi]"}], "|", 
+           RowBox[{
+            RowBox[{
+             SubscriptBox[
+              StyleBox["\[Mu]",
+               FontFamily->"Times",
+               FontWeight->"Bold",
+               FontSlant->"Italic"], 
+              StyleBox["e",
+               FontFamily->"Times",
+               FontWeight->"Bold",
+               FontSlant->"Italic"]], "(", 
+             RowBox[{
+              SubscriptBox[
+               StyleBox["r",
+                FontFamily->"Times",
+                FontWeight->"Bold",
+                FontSlant->"Plain"], "1"], 
+              SubscriptBox[
+               StyleBox[
+                RowBox[{"\[Ellipsis]", 
+                 StyleBox["r",
+                  FontFamily->"Times",
+                  FontWeight->"Bold",
+                  FontSlant->"Plain"]}]], 
+               StyleBox["N",
+                FontFamily->"Times",
+                FontWeight->"Plain",
+                FontSlant->"Plain"]]}], ")"}], 
+            RowBox[{
+             SubscriptBox["\[Psi]", "e"], "'"}], 
+            SuperscriptBox[
+             SubscriptBox["\[Psi]", "v"], "'"], 
+            RowBox[{"\[Chi]", "'"}]}]}], "\[RightAngleBracket]"}], "+", 
+         RowBox[{
+          SubscriptBox[
+           StyleBox["\[Mu]",
+            FontFamily->"Times",
+            FontWeight->"Bold",
+            FontSlant->"Italic"], "N"], "(", 
+          RowBox[{
+           SubscriptBox[
+            StyleBox["R",
+             FontFamily->"Times",
+             FontWeight->"Bold",
+             FontSlant->"Plain"], "1"], 
+           SubscriptBox[
+            StyleBox[
+             RowBox[{"\[Ellipsis]", 
+              StyleBox["R",
+               FontFamily->"Times",
+               FontWeight->"Bold",
+               FontSlant->"Plain"]}]], 
+            StyleBox["N",
+             FontFamily->"Times",
+             FontWeight->"Plain",
+             FontSlant->"Plain"]]}], ")"}]}], "|", 
+        RowBox[{
+         SuperscriptBox[
+          RowBox[{
+           RowBox[{
+            SubscriptBox["\[Psi]", "e"], "'"}], 
+           SubscriptBox["\[Psi]", "v"]}], "'"], 
+         RowBox[{"\[Chi]", "'"}]}]}], "\[RightAngleBracket]"}]}], 
+     "\[RightBracketingBar]"}], "2"], TraditionalForm]]],
+ "\n",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"=", 
+    SuperscriptBox[
+     RowBox[{"\[LeftBracketingBar]", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"\[LeftAngleBracket]", 
+         RowBox[{
+          SubscriptBox["\[Psi]", "v"], "|", 
+          RowBox[{
+           SubscriptBox["\[Psi]", "v"], "'"}]}], "\[RightAngleBracket]"}], 
+        RowBox[{"\[LeftAngleBracket]", 
+         RowBox[{
+          SubscriptBox["\[Psi]", "e"], "|", 
+          SubscriptBox["\[Mu]", "e"], "|", 
+          RowBox[{
+           SubscriptBox["\[Psi]", "e"], "'"}]}], "\[RightAngleBracket]"}], 
+        RowBox[{"\[LeftAngleBracket]", 
+         RowBox[{
+          TagBox["\[Chi]",
+           "MathMLPresentationTag",
+           AutoDelete->True], "|", 
+          TagBox[
+           RowBox[{"\[Chi]", "'"}],
+           "MathMLPresentationTag",
+           AutoDelete->True]}], "\[RightAngleBracket]"}]}], "+", 
+       RowBox[{
+        RowBox[{"\[LeftAngleBracket]", 
+         RowBox[{
+          SubscriptBox["\[Psi]", "e"], "|", 
+          RowBox[{
+           SubscriptBox["\[Psi]", "e"], "'"}]}], "\[RightAngleBracket]"}], 
+        RowBox[{"\[LeftAngleBracket]", 
+         RowBox[{
+          SubscriptBox["\[Psi]", "v"], "|", 
+          SubscriptBox["\[Mu]", "N"], "|", 
+          RowBox[{
+           SubscriptBox["\[Psi]", "v"], "'"}]}], "\[RightAngleBracket]"}], 
+        RowBox[{"\[LeftAngleBracket]", 
+         RowBox[{"\[Chi]", "|", 
+          RowBox[{"\[Chi]", "'"}]}], "\[RightAngleBracket]"}]}]}], 
+      "\[RightBracketingBar]"}], "2"]}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ "\n\nHere, the term with the nuclear dipole moment goes to zero due to the \
+orthogonality of the electornic wavefunctions. For symmetric diatomic \
+molecules .\n\n",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"=", 
+    SuperscriptBox[
+     RowBox[{"\[LeftBracketingBar]", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"\[LeftAngleBracket]", 
+         RowBox[{
+          SubscriptBox["\[Psi]", "v"], "|", 
+          RowBox[{
+           SubscriptBox["\[Psi]", "v"], "'"}]}], "\[RightAngleBracket]"}], 
+        RowBox[{"\[LeftAngleBracket]", 
+         RowBox[{
+          SubscriptBox["\[Psi]", "e"], "|", 
+          SubscriptBox[
+           StyleBox["\[Mu]",
+            FontFamily->"Times",
+            FontWeight->"Bold",
+            FontSlant->"Italic"], 
+           StyleBox["e",
+            FontFamily->"Times",
+            FontWeight->"Bold",
+            FontSlant->"Italic"]], "|", 
+          RowBox[{
+           SubscriptBox["\[Psi]", "e"], "'"}]}], "\[RightAngleBracket]"}]}], 
+       "+", 
+       RowBox[{"0", "*", 
+        RowBox[{"\[LeftAngleBracket]", 
+         RowBox[{
+          SubscriptBox["\[Psi]", "v"], "|", "0", "|", 
+          SuperscriptBox[
+           SubscriptBox["\[Psi]", "v"], "'"]}], "\[RightAngleBracket]"}], 
+        RowBox[{"\[LeftAngleBracket]", 
+         RowBox[{"\[Chi]", "|", 
+          RowBox[{"\[Chi]", "'"}]}], "\[RightAngleBracket]"}]}]}], 
+      "\[RightBracketingBar]"}], "2"]}], TraditionalForm]]],
+ "\n",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"P", "(", 
+    RowBox[{
+     StyleBox["\[CapitalPsi]",
+      FontFamily->"Times",
+      FontWeight->"Plain",
+      FontSlant->"Plain"], "\[RightArrow]", 
+     SuperscriptBox[
+      StyleBox["\[CapitalPsi]",
+       FontFamily->"Times",
+       FontWeight->"Plain",
+       FontSlant->"Plain"], "'"]}], ")"}], TraditionalForm]]],
+ "=",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SuperscriptBox[
+     RowBox[{"\[LeftBracketingBar]", 
+      RowBox[{"\[LeftAngleBracket]", 
+       RowBox[{
+        SubscriptBox["\[Psi]", "v"], "|", 
+        RowBox[{
+         SubscriptBox["\[Psi]", "v"], "'"}]}], "\[RightAngleBracket]"}], 
+      "\[RightBracketingBar]"}], "2"], 
+    SuperscriptBox[
+     RowBox[{"\[LeftBracketingBar]", 
+      RowBox[{
+       RowBox[{"\[LeftAngleBracket]", 
+        RowBox[{
+         SubscriptBox["\[Psi]", "e"], "|", 
+         SubscriptBox[
+          StyleBox["\[Mu]",
+           FontFamily->"Times",
+           FontWeight->"Bold",
+           FontSlant->"Italic"], 
+          StyleBox["e",
+           FontFamily->"Times",
+           FontWeight->"Bold",
+           FontSlant->"Italic"]], "|", 
+         RowBox[{
+          SubscriptBox["\[Psi]", "e"], "'"}]}], "\[RightAngleBracket]"}], 
+       RowBox[{"\[LeftAngleBracket]", 
+        RowBox[{
+         TagBox["\[Chi]",
+          "MathMLPresentationTag",
+          AutoDelete->True], "|", 
+         TagBox[
+          RowBox[{"\[Chi]", "'"}],
+          "MathMLPresentationTag",
+          AutoDelete->True]}], "\[RightAngleBracket]"}]}], 
+      "\[RightBracketingBar]"}], "2"]}], TraditionalForm]]],
+ "\n\nThe final result is the orbital and spin selection rules multiplied by \
+the factor called the Franck-Condon Factor (FCF), essentially a vibrational \
+selection rule. For a particular orbital and spin excitation, the fcf \
+modulates the intensities of the vibrational excitations.\n\nThe calculation \
+of the integrals for a FCF is difficult, due to the large number of variables \
+in a polyatomic molecule. For a diatomic molecule, the Morse potential can be \
+approximated by a Harmonic potential and the FCF is only dependent on two \
+position variables allowing the overlap integrals to be calculated \
+analytically.\n\nWhat follows is a visualization of the vibrational energy \
+transitions, a calculation of the FCFs, and a example spectrum.visualization."
+}], "Text",
+ CellChangeTimes->{{3.5738332561634207`*^9, 3.573833467259528*^9}, {
+  3.5738335274695487`*^9, 3.573833736377437*^9}, {3.57383381061386*^9, 
+  3.573834004749272*^9}, {3.573834048246621*^9, 3.573834124805313*^9}, {
+  3.573838253008857*^9, 3.573838286056672*^9}, {3.5738383373075233`*^9, 
+  3.5738384003471975`*^9}, {3.5738386124967794`*^9, 3.5738388889893885`*^9}, {
+  3.57383911073503*^9, 3.573839215118041*^9}, {3.573840240706539*^9, 
+  3.573840264122881*^9}, {3.573840371885223*^9, 3.5738404386905413`*^9}, {
+  3.5738412171634417`*^9, 3.573841217268442*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["MorsePotential", "Subsection",
+ CellChangeTimes->{{3.5737005158587523`*^9, 3.573700527530086*^9}}],
+
+Cell["\<\
+The Morse Potential is a model of the potential energy of a diatomic molecule.
+\[Mu] is the reduced mass (with m1 and m2 the masses of the two molecules)
+\[Omega] is the natural frequency
+De is the dissasociation energy
+re is the equilibrium bond length
+R is the nuclear separation
+\
+\>", "Text",
+ CellChangeTimes->{{3.5737008323431225`*^9, 3.5737008440712953`*^9}, {
+  3.5738388974386983`*^9, 3.5738389280365777`*^9}, {3.573838970026178*^9, 
+  3.573839070911997*^9}, {3.573841206536442*^9, 3.573841207896442*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["Initialization", "Subsubsection",
+ CellChangeTimes->{{3.5737005921119995`*^9, 3.5737005971720114`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"\[Mu]", "[", 
+   RowBox[{"m1_", ",", "m2_"}], "]"}], ":=", 
+  FractionBox[
+   RowBox[{"m1", " ", "m2"}], 
+   RowBox[{"m1", "+", "m2"}]]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"k", "[", 
+   RowBox[{"m1_", ",", "m2_", ",", "\[Omega]_"}], "]"}], ":=", 
+  RowBox[{
+   RowBox[{"\[Mu]", "[", 
+    RowBox[{"m1", ",", "m2"}], "]"}], "*", 
+   SuperscriptBox["\[Omega]", "2"]}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"a", "[", 
+   RowBox[{"m1_", ",", "m2_", ",", "\[Omega]_", ",", "De_"}], "]"}], ":=", 
+  SqrtBox[
+   FractionBox[
+    RowBox[{"k", "[", 
+     RowBox[{"m1", ",", "m2", ",", "\[Omega]"}], "]"}], 
+    RowBox[{"2", " ", "De"}]]]}]}], "Input",
+ CellChangeTimes->{{3.5736866589668865`*^9, 3.573686665017886*^9}, {
+  3.5737531728646483`*^9, 3.5737531739201202`*^9}, {3.573753219691223*^9, 
+  3.5737532240860248`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"MorsePotential", "[", 
+   RowBox[{
+   "m1_", ",", "m2_", ",", "\[Omega]_", ",", "De_", ",", "R_", ",", "re_"}], 
+   "]"}], ":=", 
+  RowBox[{"De", 
+   SuperscriptBox[
+    RowBox[{"(", 
+     RowBox[{"1", "-", 
+      SuperscriptBox["\[ExponentialE]", 
+       RowBox[{
+        RowBox[{"-", 
+         RowBox[{"a", "[", 
+          RowBox[{"m1", ",", "m2", ",", "\[Omega]", ",", "De"}], "]"}]}], 
+        RowBox[{"(", 
+         RowBox[{"R", "-", "re"}], ")"}]}]]}], ")"}], 
+    "2"]}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"MorsePlot", "[", 
+   RowBox[{"m1_", ",", "m2_", ",", "\[Omega]_", ",", "De_", ",", "re_"}], 
+   "]"}], ":=", 
+  RowBox[{"Plot", "[", 
+   RowBox[{
+    RowBox[{"MorsePotential", "[", 
+     RowBox[{
+     "m1", ",", "m2", ",", "\[Omega]", ",", "De", ",", "R", ",", "re"}], 
+     "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"R", ",", "0", ",", "10"}], "}"}], ",", 
+    RowBox[{"PlotRange", "\[Rule]", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", "10"}], "}"}]}], ",", 
+    RowBox[{"Frame", "\[Rule]", "True"}], ",", 
+    RowBox[{"FrameTicks", "\[Rule]", "False"}], ",", 
+    RowBox[{"FrameLabel", "->", 
+     RowBox[{"{", 
+      RowBox[{"\"\<Nuclear Separation\>\"", ",", "\"\<Energy\>\""}], 
+      "}"}]}]}], "]"}]}], "\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->{{3.567129383159422*^9, 3.5671294467490587`*^9}, {
+   3.567129646445481*^9, 3.5671296485516014`*^9}, 3.567129801315339*^9, {
+   3.567130960768656*^9, 3.567130971878291*^9}, {3.5671326380265894`*^9, 
+   3.567132651724373*^9}, {3.567132682845153*^9, 3.567132690718603*^9}, {
+   3.567133757350611*^9, 3.567133797381901*^9}, {3.5671339256702385`*^9, 
+   3.5671339531698112`*^9}, {3.567134787825551*^9, 3.5671348393875003`*^9}, {
+   3.5671374456285686`*^9, 3.5671374502978354`*^9}, {3.573414622309433*^9, 
+   3.5734146379579973`*^9}, {3.5734146787740784`*^9, 
+   3.5734148043956394`*^9}, {3.5734150846966667`*^9, 3.573415109465143*^9}, {
+   3.5734151454207387`*^9, 3.573415209996196*^9}, {3.5735492276748343`*^9, 
+   3.5735492796610327`*^9}, {3.5735496734874115`*^9, 3.573549676957758*^9}, {
+   3.5735513592069664`*^9, 3.573551362854331*^9}, {3.573686677477886*^9, 
+   3.573686677846886*^9}, {3.5736893255532317`*^9, 3.5736893277528596`*^9}, {
+   3.573700640192614*^9, 3.5737006769519644`*^9}}],
+
+Cell["", "Text",
+ CellChangeTimes->{{3.573839085532072*^9, 3.573839102855607*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Plot", "Subsubsection",
+ CellChangeTimes->{{3.5737006055086784`*^9, 3.573700605972771*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Manipulate", "[", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"MorsePlot", "[", 
+    RowBox[{"m1", ",", "m2", ",", "\[Omega]", ",", "De", ",", "re"}], "]"}], 
+   ",", "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{"m1", ",", "1", ",", "5"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"m2", ",", "1", ",", "5"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"\[Omega]", ",", "4.2"}], "}"}], ",", "1", ",", "10"}], "}"}], 
+   ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"De", ",", "7"}], "}"}], ",", "1", ",", "10"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"re", ",", "2"}], "}"}], ",", "1", ",", "5"}], "}"}]}], 
+  "\[IndentingNewLine]", "]"}]], "Input",
+ CellChangeTimes->{{3.57354934623969*^9, 3.5735494369167566`*^9}, {
+  3.5735496668467474`*^9, 3.573549669455008*^9}, {3.5735512435063972`*^9, 
+  3.5735512804830947`*^9}, {3.57355429203622*^9, 3.5735543961216273`*^9}, {
+  3.5735544274827633`*^9, 3.5735544705400686`*^9}, {3.5736893298276863`*^9, 
+  3.5736893447102776`*^9}, {3.5737007023261223`*^9, 3.5737007184707365`*^9}, {
+  3.5737007867775664`*^9, 3.5737008021381025`*^9}}],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`De$$ = 6.34, $CellContext`m1$$ = 
+    5., $CellContext`m2$$ = 1., $CellContext`re$$ = 
+    2, $CellContext`\[Omega]$$ = 4.2, Typeset`show$$ = True, 
+    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{
+      Hold[$CellContext`m1$$], 1, 5}, {
+      Hold[$CellContext`m2$$], 1, 5}, {{
+       Hold[$CellContext`\[Omega]$$], 4.2}, 1, 10}, {{
+       Hold[$CellContext`De$$], 7}, 1, 10}, {{
+       Hold[$CellContext`re$$], 2}, 1, 5}}, Typeset`size$$ = {
+    402., {125., 132.}}, Typeset`update$$ = 0, Typeset`initDone$$, 
+    Typeset`skipInitDone$$ = True, $CellContext`m1$544$$ = 
+    0, $CellContext`m2$549$$ = 0, $CellContext`\[Omega]$550$$ = 
+    0, $CellContext`De$551$$ = 0, $CellContext`re$552$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`De$$ = 7, $CellContext`m1$$ = 
+        1, $CellContext`m2$$ = 1, $CellContext`re$$ = 
+        2, $CellContext`\[Omega]$$ = 4.2}, "ControllerVariables" :> {
+        Hold[$CellContext`m1$$, $CellContext`m1$544$$, 0], 
+        Hold[$CellContext`m2$$, $CellContext`m2$549$$, 0], 
+        Hold[$CellContext`\[Omega]$$, $CellContext`\[Omega]$550$$, 0], 
+        Hold[$CellContext`De$$, $CellContext`De$551$$, 0], 
+        Hold[$CellContext`re$$, $CellContext`re$552$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, 
+      "Body" :> $CellContext`MorsePlot[$CellContext`m1$$, $CellContext`m2$$, \
+$CellContext`\[Omega]$$, $CellContext`De$$, $CellContext`re$$], 
+      "Specifications" :> {{$CellContext`m1$$, 1, 5}, {$CellContext`m2$$, 1, 
+         5}, {{$CellContext`\[Omega]$$, 4.2}, 1, 10}, {{$CellContext`De$$, 7},
+          1, 10}, {{$CellContext`re$$, 2}, 1, 5}}, "Options" :> {}, 
+      "DefaultOptions" :> {}],
+     ImageSizeCache->{461., {251., 258.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{3.573700803797268*^9, 3.5737532290785275`*^9, 
+  3.5738329170465126`*^9}]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+The Harmonic Oscillator as an approximation to theMorse Potential\
+\>", "Subsection",
+ CellChangeTimes->{{3.5735508703180823`*^9, 3.5735508876288133`*^9}, {
+  3.573700975486435*^9, 3.5737009878376703`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Harmonic Oscillator Wavefunctions\
+\>", "Subsubsection",
+ CellChangeTimes->{{3.573701451461461*^9, 3.5737014573346357`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"HarmonicWaveFunction", "[", 
+   RowBox[{"x_", ",", "m1_", ",", "m2_", ",", "\[Omega]_", ",", "v_"}], "]"}],
+   ":=", 
+  RowBox[{
+   SuperscriptBox[
+    RowBox[{"(", 
+     FractionBox[
+      RowBox[{
+       RowBox[{"\[Mu]", "[", 
+        RowBox[{"m1", ",", "m2"}], "]"}], "*", "\[Omega]"}], 
+      RowBox[{"\[Pi]", " "}]], ")"}], 
+    RowBox[{"1", "/", "4"}]], 
+   RowBox[{"HermiteH", "[", 
+    RowBox[{"v", ",", 
+     RowBox[{
+      SqrtBox[
+       RowBox[{
+        RowBox[{"\[Mu]", "[", 
+         RowBox[{"m1", ",", "m2"}], "]"}], "*", "\[Omega]"}]], "x"}]}], "]"}],
+    " ", " ", 
+   FractionBox["1", 
+    SqrtBox[
+     RowBox[{
+      SuperscriptBox["2", "v"], " ", 
+      RowBox[{"v", "!"}]}]]], 
+   RowBox[{"Exp", "[", 
+    RowBox[{
+     RowBox[{"-", 
+      RowBox[{"\[Mu]", "[", 
+       RowBox[{"m1", ",", "m2"}], "]"}]}], "*", "\[Omega]", "*", 
+     RowBox[{
+      SuperscriptBox["x", "2"], "/", "2"}]}], "]"}]}]}]], "Input",
+ CellChangeTimes->{{3.573701572865737*^9, 3.57370160133543*^9}, {
+  3.5737022597588453`*^9, 3.5737022740462737`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"GroundState", "[", 
+    RowBox[{"x_", ",", "m1_", ",", "m2_", ",", "\[Omega]_"}], "]"}], ":=", 
+   RowBox[{"HarmonicWaveFunction", "[", 
+    RowBox[{"x", ",", "m1", ",", "m2", ",", "\[Omega]", ",", "0"}], "]"}]}], 
+  "\[IndentingNewLine]"}]], "Input",
+ CellChangeTimes->{{3.5737016188959413`*^9, 3.5737016281938004`*^9}, {
+  3.5737022775256214`*^9, 3.573702282149084*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Initialization", "Subsubsection",
+ CellChangeTimes->{{3.5737009570365906`*^9, 3.5737009587157583`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"HarmonicPotential", "[", 
+   RowBox[{"m1_", ",", "m2_", ",", "\[Omega]_", ",", "R_", ",", "re_"}], 
+   "]"}], ":=", 
+  RowBox[{
+   FractionBox["1", "2"], 
+   RowBox[{"\[Mu]", "[", 
+    RowBox[{"m1", ",", "m2"}], "]"}], "*", 
+   SuperscriptBox["\[Omega]", "2"], 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"R", "-", "re"}], ")"}], "^", "2"}]}]}]], "Input"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"HarmonicEnergy", "[", 
+   RowBox[{"v_", ",", "\[Omega]_"}], "]"}], ":=", 
+  RowBox[{"\[Omega]", "*", 
+   RowBox[{"(", 
+    RowBox[{"v", "+", 
+     RowBox[{"1", "/", "2"}]}], ")"}]}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"HPplot", "[", 
+   RowBox[{"m1_", ",", "m2_", ",", "\[Omega]_", ",", "re_"}], "]"}], ":=", 
+  RowBox[{"Plot", "[", 
+   RowBox[{
+    RowBox[{"HarmonicPotential", "[", 
+     RowBox[{"m1", ",", "m2", ",", "\[Omega]", ",", "R", ",", "re"}], "]"}], 
+    ",", 
+    RowBox[{"{", 
+     RowBox[{"R", ",", "0", ",", "15"}], "}"}]}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"EnergyLevels", "[", 
+   RowBox[{"m1_", ",", "m2_", ",", "\[Omega]_", ",", "re_", ",", "v_"}], 
+   "]"}], ":=", 
+  RowBox[{"Plot", "[", 
+   RowBox[{
+    RowBox[{"HarmonicEnergy", "[", 
+     RowBox[{"v", ",", "\[Omega]"}], "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"x", ",", 
+      RowBox[{"re", "-", 
+       SqrtBox[
+        FractionBox[
+         RowBox[{"2", 
+          RowBox[{"(", 
+           RowBox[{"v", "+", 
+            RowBox[{"1", "/", "2"}]}], ")"}]}], 
+         RowBox[{
+          RowBox[{"\[Mu]", "[", 
+           RowBox[{"m1", ",", "m2"}], "]"}], "*", "\[Omega]"}]]]}], ",", 
+      RowBox[{"re", "+", 
+       SqrtBox[
+        FractionBox[
+         RowBox[{"2", 
+          RowBox[{"(", 
+           RowBox[{"v", "+", 
+            RowBox[{"1", "/", "2"}]}], ")"}]}], 
+         RowBox[{
+          RowBox[{"\[Mu]", "[", 
+           RowBox[{"m1", ",", "m2"}], "]"}], "*", "\[Omega]"}]]]}]}], "}"}]}],
+    "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"MorsePlot2", "[", 
+   RowBox[{"m1_", ",", "m2_", ",", "\[Omega]_", ",", "De_", ",", "re_"}], 
+   "]"}], ":=", 
+  RowBox[{"Plot", "[", 
+   RowBox[{
+    RowBox[{"MorsePotential", "[", 
+     RowBox[{
+     "m1", ",", "m2", ",", "\[Omega]", ",", "De", ",", "R", ",", "re"}], 
+     "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"R", ",", "0", ",", "15"}], "}"}], ",", 
+    RowBox[{"PlotRange", "\[Rule]", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", "20"}], "}"}]}], ",", 
+    RowBox[{"FrameTicks", "\[Rule]", "None"}], ",", 
+    RowBox[{"Frame", "\[Rule]", "True"}], ",", 
+    RowBox[{"FrameLabel", "\[Rule]", 
+     RowBox[{"{", 
+      RowBox[{"\"\<Nuclear Separation\>\"", ",", "\"\<Energy\>\""}], 
+      "}"}]}]}], "]"}]}]}], "Input",
+ CellChangeTimes->{{3.573686707234886*^9, 3.5736867204438863`*^9}, 
+   3.5736917852639737`*^9, {3.573699288398738*^9, 3.573699331051395*^9}, {
+   3.5736995032082047`*^9, 3.5736995610874166`*^9}, {3.5737001684222097`*^9, 
+   3.5737001838432097`*^9}, {3.573700352245122*^9, 3.5737003666295605`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Plot", "Subsubsection",
+ CellChangeTimes->{{3.5737009668285694`*^9, 3.5737009672286096`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Quiet", "[", "\[IndentingNewLine]", 
+  RowBox[{"Manipulate", "[", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Show", "[", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"MorsePlot2", "[", 
+       RowBox[{"m1", ",", "m2", ",", "\[Omega]", ",", "De", ",", "re"}], 
+       "]"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"HPplot", "[", 
+       RowBox[{"m1", ",", "m2", ",", "\[Omega]", ",", "re"}], "]"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"Table", "[", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"EnergyLevels", "[", 
+         RowBox[{"m1", ",", "m2", ",", "\[Omega]", ",", "re", ",", "v"}], 
+         "]"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"v", ",", "0", ",", "20"}], "}"}]}], "\[IndentingNewLine]", 
+       "]"}]}], "\[IndentingNewLine]", "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"m1", ",", "1"}], "}"}], ",", "1", ",", "5"}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"m2", ",", "1"}], "}"}], ",", "1", ",", "5"}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"\[Omega]", ",", "4"}], "}"}], ",", "1.5", ",", "8"}], "}"}], 
+    ",", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"re", ",", "3"}], "}"}], ",", "1", ",", "8"}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"De", ",", "15"}], "}"}], ",", "1", ",", "20"}], "}"}]}], 
+   "\[IndentingNewLine]", "]"}], "\[IndentingNewLine]", "]"}]], "Input",
+ CellChangeTimes->{{3.5735811793953094`*^9, 3.5735812090334153`*^9}, {
+  3.573597582735729*^9, 3.5735975866561213`*^9}, {3.573689360950085*^9, 
+  3.573689405192252*^9}, {3.5736894710727243`*^9, 3.5736894992158456`*^9}, {
+  3.5737023012909975`*^9, 3.5737023023791065`*^9}}],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`De$$ = 15, $CellContext`m1$$ = 
+    1, $CellContext`m2$$ = 1, $CellContext`re$$ = 
+    3.9, $CellContext`\[Omega]$$ = 1.52, Typeset`show$$ = True, 
+    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{{
+       Hold[$CellContext`m1$$], 1}, 1, 5}, {{
+       Hold[$CellContext`m2$$], 1}, 1, 5}, {{
+       Hold[$CellContext`\[Omega]$$], 4}, 1.5, 8}, {{
+       Hold[$CellContext`re$$], 3}, 1, 8}, {{
+       Hold[$CellContext`De$$], 15}, 1, 20}}, Typeset`size$$ = {
+    259.2, {82., 83.21802686393409}}, Typeset`update$$ = 0, 
+    Typeset`initDone$$, Typeset`skipInitDone$$ = True, $CellContext`m1$624$$ =
+     0, $CellContext`m2$625$$ = 0, $CellContext`\[Omega]$626$$ = 
+    0, $CellContext`re$627$$ = 0, $CellContext`De$628$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`De$$ = 15, $CellContext`m1$$ = 
+        1, $CellContext`m2$$ = 1, $CellContext`re$$ = 
+        3, $CellContext`\[Omega]$$ = 4}, "ControllerVariables" :> {
+        Hold[$CellContext`m1$$, $CellContext`m1$624$$, 0], 
+        Hold[$CellContext`m2$$, $CellContext`m2$625$$, 0], 
+        Hold[$CellContext`\[Omega]$$, $CellContext`\[Omega]$626$$, 0], 
+        Hold[$CellContext`re$$, $CellContext`re$627$$, 0], 
+        Hold[$CellContext`De$$, $CellContext`De$628$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> Show[
+        $CellContext`MorsePlot2[$CellContext`m1$$, $CellContext`m2$$, \
+$CellContext`\[Omega]$$, $CellContext`De$$, $CellContext`re$$], 
+        $CellContext`HPplot[$CellContext`m1$$, $CellContext`m2$$, \
+$CellContext`\[Omega]$$, $CellContext`re$$], 
+        Table[
+         $CellContext`EnergyLevels[$CellContext`m1$$, $CellContext`m2$$, \
+$CellContext`\[Omega]$$, $CellContext`re$$, $CellContext`v], {$CellContext`v, 
+          0, 20}]], 
+      "Specifications" :> {{{$CellContext`m1$$, 1}, 1, 
+         5}, {{$CellContext`m2$$, 1}, 1, 5}, {{$CellContext`\[Omega]$$, 4}, 
+         1.5, 8}, {{$CellContext`re$$, 3}, 1, 8}, {{$CellContext`De$$, 15}, 1,
+          20}}, "Options" :> {}, "DefaultOptions" :> {}],
+     ImageSizeCache->{296., {154.14, 157.86}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{
+  3.573579784685249*^9, {3.573581181114794*^9, 3.573581209811182*^9}, 
+   3.5735975889443502`*^9, 3.5736865654796352`*^9, 3.573686734437886*^9, 
+   3.573702303344203*^9, 3.573753188864644*^9, 3.5737532421439915`*^9, 
+   3.5738320333121386`*^9, 3.573832928135621*^9}]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Vibronic Transitions in The Harmonic Oscillator\
+\>", "Subsection",
+ CellChangeTimes->{{3.5735560257015696`*^9, 3.573556059593958*^9}, {
+  3.5737010102069073`*^9, 3.573701019886875*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["Initialization", "Subsubsection",
+ CellChangeTimes->{{3.573701037280614*^9, 3.5737010394708333`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"Bound", "[", 
+    RowBox[{"m1_", ",", "m2_", ",", "v_", ",", "\[Omega]_"}], "]"}], ":=", 
+   SqrtBox[
+    FractionBox[
+     RowBox[{"2", 
+      RowBox[{"(", 
+       RowBox[{"v", "+", 
+        RowBox[{"1", "/", "2"}]}], ")"}]}], 
+     RowBox[{
+      RowBox[{"\[Mu]", "[", 
+       RowBox[{"m1", ",", "m2"}], "]"}], "*", "\[Omega]"}]]]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"EnergyLevelsExcited", "[", 
+    RowBox[{
+    "m1_", ",", "m2_", ",", "\[Omega]_", ",", "re2_", ",", "v_", ",", 
+     "\[CapitalDelta]E_"}], "]"}], ":=", 
+   RowBox[{"Plot", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"HarmonicEnergy", "[", 
+       RowBox[{"v", ",", "\[Omega]"}], "]"}], "+", "\[CapitalDelta]E"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"x", ",", 
+       RowBox[{"re2", "-", 
+        RowBox[{"Bound", "[", 
+         RowBox[{"m1", ",", "m2", ",", "v", ",", "\[Omega]"}], "]"}]}], ",", 
+       RowBox[{"re2", "+", 
+        RowBox[{"Bound", "[", 
+         RowBox[{"m1", ",", "m2", ",", "v", ",", "\[Omega]"}], "]"}]}]}], 
+      "}"}], ",", 
+     RowBox[{"PlotStyle", "\[Rule]", "Red"}], ",", 
+     RowBox[{"PlotRange", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", "20"}], "}"}]}]}], "]"}]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"HPplot2", "[", 
+    RowBox[{"m1_", ",", "m2_", ",", "\[Omega]_", ",", "re_"}], "]"}], ":=", 
+   RowBox[{"Plot", "[", 
+    RowBox[{
+     RowBox[{"HarmonicPotential", "[", 
+      RowBox[{"m1", ",", "m2", ",", "\[Omega]", ",", "R", ",", "re"}], "]"}], 
+     ",", 
+     RowBox[{"{", 
+      RowBox[{"R", ",", "0", ",", "10"}], "}"}], ",", 
+     RowBox[{"PlotRange", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", "20"}], "}"}]}], ",", 
+     RowBox[{"PlotStyle", "\[Rule]", "Thick"}], ",", 
+     RowBox[{"Frame", "\[Rule]", "True"}], ",", 
+     RowBox[{"FrameTicks", "\[Rule]", "False"}], ",", 
+     RowBox[{"FrameLabel", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"\"\<Nuclear Separation\>\"", ",", "\"\<Energy\>\""}], 
+       "}"}]}]}], "]"}]}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"HPplotExcited", "[", 
+   RowBox[{
+   "m1_", ",", "m2_", ",", "\[Omega]_", ",", "re2_", ",", 
+    "\[CapitalDelta]E_"}], "]"}], ":=", 
+  RowBox[{"Plot", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"HarmonicPotential", "[", 
+      RowBox[{"m1", ",", "m2", ",", "\[Omega]", ",", "R", ",", "re2"}], "]"}],
+      "+", "\[CapitalDelta]E"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"R", ",", "0", ",", "10"}], "}"}], ",", 
+    RowBox[{"PlotStyle", "\[Rule]", 
+     RowBox[{"{", 
+      RowBox[{"Red", ",", "Thick"}], "}"}]}]}], "]"}]}]}], "Input",
+ CellChangeTimes->{{3.5735568114771385`*^9, 3.5735568602320137`*^9}, {
+  3.573557519604944*^9, 3.5735575381017942`*^9}, {3.573557915989579*^9, 
+  3.5735579179087706`*^9}, {3.5735583288068566`*^9, 3.5735583301669927`*^9}, {
+  3.5735809113819075`*^9, 3.573580911942963*^9}, {3.5736866182440805`*^9, 
+  3.573686633275073*^9}, {3.573686768781886*^9, 3.5736867764168863`*^9}, {
+  3.5736887065963373`*^9, 3.5736887170017376`*^9}, {3.5736930077982197`*^9, 
+  3.5736930631447535`*^9}, {3.5736988517860813`*^9, 3.573698862235126*^9}, {
+  3.573698931214023*^9, 3.573698982048106*^9}, {3.5736991277286725`*^9, 
+  3.5736991412680264`*^9}, {3.5737003002569237`*^9, 3.5737003449323907`*^9}, {
+  3.5737003837783413`*^9, 3.573700414088402*^9}}],
+
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"PlotGroundStateProbability", "[", 
+    RowBox[{"re_", ",", "m1_", ",", "m2_", ",", "\[Omega]_"}], "]"}], ":=", 
+   RowBox[{"Plot", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"GroundState", "[", 
+        RowBox[{
+         RowBox[{"x", "-", "re"}], ",", "m1", ",", "m2", ",", "\[Omega]"}], 
+        "]"}], "^", "2"}], "+", 
+      RowBox[{"HarmonicEnergy", "[", 
+       RowBox[{"0", ",", "\[Omega]"}], "]"}]}], ",", 
+     RowBox[{"{", 
+      RowBox[{"x", ",", 
+       RowBox[{"re", "-", 
+        RowBox[{"Bound", "[", 
+         RowBox[{"m1", ",", "m2", ",", "0", ",", "\[Omega]"}], "]"}], "-", 
+        ".5"}], ",", 
+       RowBox[{"re", "+", 
+        RowBox[{"Bound", "[", 
+         RowBox[{"m1", ",", "m2", ",", "0", ",", "\[Omega]"}], "]"}], "+", 
+        ".5"}]}], "}"}], ",", 
+     RowBox[{"Filling", "\[Rule]", 
+      RowBox[{"HarmonicEnergy", "[", 
+       RowBox[{"0", ",", "\[Omega]"}], "]"}]}]}], "]"}]}]}]], "Input",
+ CellChangeTimes->{{3.573688655537076*^9, 3.573688666784676*^9}, {
+   3.573689137570822*^9, 3.5736891412836695`*^9}, {3.5736892046828823`*^9, 
+   3.573689217911852*^9}, {3.573689267770091*^9, 3.573689280125449*^9}, {
+   3.573689608434246*^9, 3.573689633519689*^9}, {3.573689670742244*^9, 
+   3.573689701100622*^9}, {3.573689733908438*^9, 3.573689757153183*^9}, {
+   3.573689790725459*^9, 3.573689831832777*^9}, {3.5736916153909883`*^9, 
+   3.5736916312975783`*^9}, {3.573693109380377*^9, 3.5736931115705957`*^9}, {
+   3.5736931636548033`*^9, 3.5736931787743154`*^9}, {3.573693314811918*^9, 
+   3.573693321484585*^9}, {3.5736975494204216`*^9, 3.5736975764532304`*^9}, {
+   3.5736976437497935`*^9, 3.5736976478616157`*^9}, {3.5736977247699947`*^9, 
+   3.573697735458132*^9}, {3.573697768263691*^9, 3.5736977694959373`*^9}, {
+   3.573697908381709*^9, 3.5736979721614532`*^9}, 3.573698022914528*^9, {
+   3.5736980529965363`*^9, 3.5736980611723537`*^9}, {3.5736987075686607`*^9, 
+   3.5736987139843025`*^9}, {3.5736987744513483`*^9, 3.573698818148718*^9}, {
+   3.5736991456964693`*^9, 3.5736991475986595`*^9}, {3.573699188530752*^9, 
+   3.5736991894888477`*^9}, 3.5737014695510783`*^9}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"\[Psi]v", "[", 
+    RowBox[{"x_", ",", "\[Alpha]_", ",", "v_"}], "]"}], ":=", 
+   RowBox[{
+    SuperscriptBox[
+     RowBox[{"(", 
+      FractionBox["\[Alpha]", 
+       RowBox[{"\[Pi]", " "}]], ")"}], 
+     RowBox[{"1", "/", "4"}]], 
+    RowBox[{"HermiteH", "[", 
+     RowBox[{"v", ",", 
+      RowBox[{
+       SqrtBox["\[Alpha]"], "x"}]}], "]"}], " ", " ", 
+    FractionBox["1", 
+     SqrtBox[
+      RowBox[{
+       SuperscriptBox["2", "v"], " ", 
+       RowBox[{"v", "!"}]}]]], 
+    RowBox[{"Exp", "[", 
+     RowBox[{
+      RowBox[{"-", "\[Alpha]"}], "*", 
+      RowBox[{
+       SuperscriptBox["x", "2"], "/", "2"}]}], "]"}]}]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"ExcitedWaveFunctions", "[", 
+    RowBox[{"x_", ",", "m1_", ",", "m2_", ",", "\[Omega]_", ",", "v_"}], 
+    "]"}], ":=", 
+   RowBox[{"\[Psi]v", "[", 
+    RowBox[{"x", ",", 
+     RowBox[{
+      RowBox[{"\[Mu]", "[", 
+       RowBox[{"m1", ",", "m2"}], "]"}], "*", "\[Omega]"}], ",", "v"}], 
+    "]"}]}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"PlotExcitedWaveFunctionsProbability", "[", 
+   RowBox[{
+   "re2_", ",", "m1_", ",", "m2_", ",", "\[Omega]_", ",", "v_", ",", 
+    "\[CapitalDelta]E_"}], "]"}], ":=", 
+  RowBox[{"Plot", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{"ExcitedWaveFunctions", "[", 
+       RowBox[{
+        RowBox[{"x", "-", "re2"}], ",", "m1", ",", "m2", ",", "\[Omega]", ",",
+         "v"}], "]"}], "^", "2"}], "+", 
+     RowBox[{"HarmonicEnergy", "[", 
+      RowBox[{"v", ",", "\[Omega]"}], "]"}], "+", "\[CapitalDelta]E"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"x", ",", 
+      RowBox[{"re2", "-", 
+       RowBox[{"Bound", "[", 
+        RowBox[{"m1", ",", "m2", ",", "v", ",", "\[Omega]"}], "]"}], "-", 
+       ".5"}], ",", 
+      RowBox[{"re2", "+", 
+       RowBox[{"Bound", "[", 
+        RowBox[{"m1", ",", "m2", ",", "v", ",", "\[Omega]"}], "]"}], "+", 
+       ".5"}]}], "}"}], ",", 
+    RowBox[{"PlotStyle", "\[Rule]", "Black"}], ",", 
+    RowBox[{"Filling", "\[Rule]", 
+     RowBox[{
+      RowBox[{"HarmonicEnergy", "[", 
+       RowBox[{"v", ",", "\[Omega]"}], "]"}], "+", "\[CapitalDelta]E"}]}]}], 
+   "]"}]}]}], "Input",
+ CellChangeTimes->{{3.573690983181773*^9, 3.5736911688323364`*^9}, {
+  3.573691491405591*^9, 3.573691537321182*^9}, {3.573692083395784*^9, 
+  3.5736920937038145`*^9}, {3.5736922204050064`*^9, 3.573692222546006*^9}, {
+  3.5736981960698423`*^9, 3.5736982010763426`*^9}, {3.5736982378140163`*^9, 
+  3.573698240662301*^9}, {3.573698318314065*^9, 3.5736983268586936`*^9}, {
+  3.5736984028708935`*^9, 3.573698428827083*^9}, {3.5736984958284807`*^9, 
+  3.5736985351343403`*^9}, {3.5736985742921705`*^9, 3.5736985796052327`*^9}, {
+  3.573698663598264*^9, 3.5736986794558496`*^9}, {3.573698797812684*^9, 
+  3.5736988027721806`*^9}, {3.573699003997301*^9, 3.5736990304299436`*^9}, {
+  3.5736991621801176`*^9, 3.573699184738373*^9}, {3.573753295631234*^9, 
+  3.5737532971744623`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Plot", "Subsubsection",
+ CellChangeTimes->{{3.573701046591545*^9, 3.5737010471035967`*^9}}],
+
+Cell["\<\
+When the initial ground state peak lines up with one of the excited peaks, \
+then that maximizes the transition to that vibrational level. The plot starts \
+out with the most likely transition of v0->v1.\
+\>", "Text",
+ CellChangeTimes->{{3.573839452422041*^9, 3.573839496094041*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Manipulate", "[", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Show", "[", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"HPplot2", "[", 
+       RowBox[{"m1", ",", "m2", ",", "\[Omega]", ",", "re"}], "]"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"HPplotExcited", "[", 
+       RowBox[{
+       "m1", ",", "m2", ",", "\[Omega]", ",", "re2", ",", 
+        "\[CapitalDelta]E"}], "]"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"Table", "[", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"EnergyLevels", "[", 
+         RowBox[{"m1", ",", "m2", ",", "\[Omega]", ",", "re", ",", "v"}], 
+         "]"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"v", ",", "0", ",", "20"}], "}"}]}], "\[IndentingNewLine]", 
+       "]"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"Table", "[", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"EnergyLevelsExcited", "[", 
+         RowBox[{
+         "m1", ",", "m2", ",", "\[Omega]", ",", "re2", ",", "v", ",", 
+          "\[CapitalDelta]E"}], "]"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"v", ",", "0", ",", "20"}], "}"}]}], "\[IndentingNewLine]", 
+       "]"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"Table", "[", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"PlotExcitedWaveFunctionsProbability", "[", 
+         RowBox[{
+         "re2", ",", "m1", ",", "m2", ",", "\[Omega]", ",", "v", ",", 
+          "\[CapitalDelta]E"}], "]"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"v", ",", "0", ",", "6"}], "}"}]}], "\[IndentingNewLine]", 
+       "]"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"PlotGroundStateProbability", "[", 
+       RowBox[{"re", ",", "m1", ",", "m2", ",", "\[Omega]"}], "]"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"Graphics", "[", "\[IndentingNewLine]", 
+       RowBox[{"Arrow", "[", "\[IndentingNewLine]", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"re", ",", 
+            RowBox[{"HarmonicEnergy", "[", 
+             RowBox[{"0", ",", "\[Omega]"}], "]"}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"re", ",", 
+            RowBox[{
+             RowBox[{"HarmonicPotential", "[", 
+              RowBox[{
+              "m1", ",", "m2", ",", "\[Omega]", ",", "re", ",", "re2"}], 
+              "]"}], "+", "\[CapitalDelta]E", "+", "2"}]}], "}"}]}], "}"}], 
+        "\[IndentingNewLine]", "]"}], "\[IndentingNewLine]", "]"}]}], 
+     "\[IndentingNewLine]", "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"m1", ",", "1"}], "}"}], ",", "1", ",", "5"}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"m2", ",", "1"}], "}"}], ",", "1", ",", "5"}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"\[Omega]", ",", "4"}], "}"}], ",", "2", ",", "5"}], "}"}], 
+    ",", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"re", ",", "2"}], "}"}], ",", "1.5", ",", "2.5"}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"re2", ",", "2.845"}], "}"}], ",", "1", ",", "4"}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"\[CapitalDelta]E", ",", "5"}], "}"}], ",", "1", ",", "10"}], 
+     "}"}]}], "\[IndentingNewLine]", "]"}], "\[IndentingNewLine]"}]], "Input",
+ CellChangeTimes->{{3.5736895433961782`*^9, 3.5736895552524824`*^9}, {
+   3.573689594393886*^9, 3.5736895944874887`*^9}, {3.573689799711347*^9, 
+   3.5736898088844414`*^9}, {3.573691647304179*^9, 3.5736916490633545`*^9}, {
+   3.5736921475812016`*^9, 3.5736921830700064`*^9}, {3.5736932089583335`*^9, 
+   3.5736932286713047`*^9}, {3.5736932843688736`*^9, 3.57369328683112*^9}, {
+   3.5736975212711663`*^9, 3.5736975225186653`*^9}, {3.57369766823769*^9, 
+   3.5736976708942213`*^9}, 3.57369770464397*^9, {3.5736977564913373`*^9, 
+   3.5736977614833355`*^9}, {3.573698146011837*^9, 3.5736981530515404`*^9}, {
+   3.5736984628098783`*^9, 3.5736984662645693`*^9}, {3.573698558727058*^9, 
+   3.5736985639751077`*^9}, {3.5738394244890413`*^9, 3.5738394259940414`*^9}}],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`m1$$ = 1, $CellContext`m2$$ = 
+    1, $CellContext`re$$ = 2, $CellContext`re2$$ = 
+    2.845, $CellContext`\[CapitalDelta]E$$ = 5, $CellContext`\[Omega]$$ = 4, 
+    Typeset`show$$ = True, Typeset`bookmarkList$$ = {}, 
+    Typeset`bookmarkMode$$ = "Menu", Typeset`animator$$, Typeset`animvar$$ = 
+    1, Typeset`name$$ = "\"untitled\"", Typeset`specs$$ = {{{
+       Hold[$CellContext`m1$$], 1}, 1, 5}, {{
+       Hold[$CellContext`m2$$], 1}, 1, 5}, {{
+       Hold[$CellContext`\[Omega]$$], 4}, 2, 5}, {{
+       Hold[$CellContext`re$$], 2}, 1.5, 2.5}, {{
+       Hold[$CellContext`re2$$], 2.845}, 1, 4}, {{
+       Hold[$CellContext`\[CapitalDelta]E$$], 5}, 1, 10}}, Typeset`size$$ = {
+    259.2, {82., 83.21802686393411}}, Typeset`update$$ = 0, 
+    Typeset`initDone$$, Typeset`skipInitDone$$ = 
+    True, $CellContext`m1$26023$$ = 0, $CellContext`m2$26024$$ = 
+    0, $CellContext`\[Omega]$26025$$ = 0, $CellContext`re$26026$$ = 
+    0, $CellContext`re2$26027$$ = 0, $CellContext`\[CapitalDelta]E$26028$$ = 
+    0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`m1$$ = 1, $CellContext`m2$$ = 
+        1, $CellContext`re$$ = 2, $CellContext`re2$$ = 
+        2.845, $CellContext`\[CapitalDelta]E$$ = 5, $CellContext`\[Omega]$$ = 
+        4}, "ControllerVariables" :> {
+        Hold[$CellContext`m1$$, $CellContext`m1$26023$$, 0], 
+        Hold[$CellContext`m2$$, $CellContext`m2$26024$$, 0], 
+        Hold[$CellContext`\[Omega]$$, $CellContext`\[Omega]$26025$$, 0], 
+        Hold[$CellContext`re$$, $CellContext`re$26026$$, 0], 
+        Hold[$CellContext`re2$$, $CellContext`re2$26027$$, 0], 
+        Hold[$CellContext`\[CapitalDelta]E$$, \
+$CellContext`\[CapitalDelta]E$26028$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> Show[
+        $CellContext`HPplot2[$CellContext`m1$$, $CellContext`m2$$, \
+$CellContext`\[Omega]$$, $CellContext`re$$], 
+        $CellContext`HPplotExcited[$CellContext`m1$$, $CellContext`m2$$, \
+$CellContext`\[Omega]$$, $CellContext`re2$$, $CellContext`\[CapitalDelta]E$$], 
+        Table[
+         $CellContext`EnergyLevels[$CellContext`m1$$, $CellContext`m2$$, \
+$CellContext`\[Omega]$$, $CellContext`re$$, $CellContext`v], {$CellContext`v, 
+          0, 20}], 
+        Table[
+         $CellContext`EnergyLevelsExcited[$CellContext`m1$$, \
+$CellContext`m2$$, $CellContext`\[Omega]$$, $CellContext`re2$$, \
+$CellContext`v, $CellContext`\[CapitalDelta]E$$], {$CellContext`v, 0, 20}], 
+        Table[
+         $CellContext`PlotExcitedWaveFunctionsProbability[$CellContext`re2$$, \
+$CellContext`m1$$, $CellContext`m2$$, $CellContext`\[Omega]$$, \
+$CellContext`v, $CellContext`\[CapitalDelta]E$$], {$CellContext`v, 0, 6}], 
+        $CellContext`PlotGroundStateProbability[$CellContext`re$$, \
+$CellContext`m1$$, $CellContext`m2$$, $CellContext`\[Omega]$$], 
+        Graphics[
+         Arrow[{{$CellContext`re$$, 
+            $CellContext`HarmonicEnergy[
+            0, $CellContext`\[Omega]$$]}, {$CellContext`re$$, \
+$CellContext`HarmonicPotential[$CellContext`m1$$, $CellContext`m2$$, \
+$CellContext`\[Omega]$$, $CellContext`re$$, $CellContext`re2$$] + \
+$CellContext`\[CapitalDelta]E$$ + 2}}]]], 
+      "Specifications" :> {{{$CellContext`m1$$, 1}, 1, 
+         5}, {{$CellContext`m2$$, 1}, 1, 5}, {{$CellContext`\[Omega]$$, 4}, 2,
+          5}, {{$CellContext`re$$, 2}, 1.5, 
+         2.5}, {{$CellContext`re2$$, 2.845}, 1, 
+         4}, {{$CellContext`\[CapitalDelta]E$$, 5}, 1, 10}}, "Options" :> {}, 
+      "DefaultOptions" :> {}],
+     ImageSizeCache->{296., {163.64, 167.36}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{{3.5738394008550415`*^9, 3.573839430828041*^9}}]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[StyleBox["Calculation of Franck-Condon Factors", \
+"Subsection"]], "Subsection",
+ CellChangeTimes->{{3.57354884789386*^9, 3.5735488580858793`*^9}, {
+  3.573701509998166*^9, 3.573701517198606*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["Wavefunctions", "Subsubsection",
+ CellChangeTimes->{{3.5737015279527564`*^9, 3.573701530081182*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"\[Psi]v", "[", 
+   RowBox[{"x_", ",", "\[Alpha]_", ",", "v_"}], "]"}], ":=", 
+  RowBox[{
+   SuperscriptBox[
+    RowBox[{"(", 
+     FractionBox["\[Alpha]", 
+      RowBox[{"\[Pi]", " "}]], ")"}], 
+    RowBox[{"1", "/", "4"}]], 
+   RowBox[{"HermiteH", "[", 
+    RowBox[{"v", ",", 
+     RowBox[{
+      SqrtBox["\[Alpha]"], "x"}]}], "]"}], " ", " ", 
+   FractionBox["1", 
+    SqrtBox[
+     RowBox[{
+      SuperscriptBox["2", "v"], " ", 
+      RowBox[{"v", "!"}]}]]], 
+   RowBox[{"Exp", "[", 
+    RowBox[{
+     RowBox[{"-", "\[Alpha]"}], "*", 
+     RowBox[{
+      SuperscriptBox["x", "2"], "/", "2"}]}], "]"}]}]}]], "Input",
+ CellChangeTimes->{{3.573417314396583*^9, 3.5734173202147465`*^9}, {
+   3.5734255175838003`*^9, 3.573425544192461*^9}, {3.5734260564706836`*^9, 
+   3.5734262022762623`*^9}, {3.5734262423102655`*^9, 
+   3.5734262445184865`*^9}, {3.57342630405744*^9, 3.5734264270117984`*^9}, {
+   3.5734264959637985`*^9, 3.5734266465637984`*^9}, {3.5734300033656983`*^9, 
+   3.5734300143478947`*^9}, {3.5734310015911508`*^9, 3.5734310357025614`*^9}, 
+   3.5734311070186925`*^9, 3.5734312262396135`*^9, {3.5735014464180784`*^9, 
+   3.573501479731409*^9}, 3.5735017930077343`*^9, {3.5735558032753286`*^9, 
+   3.5735558117551765`*^9}, {3.57358156033191*^9, 3.5735815634086027`*^9}, 
+   3.5735818941903653`*^9, {3.573702099910862*^9, 3.573702100373908*^9}, {
+   3.5737024323080983`*^9, 3.573702432676135*^9}, {3.5737673929170685`*^9, 
+   3.5737673939154944`*^9}}],
+
+Cell["\<\
+\[CapitalDelta]r is the difference in equilibrium bond length between the \
+exicted and ground state.\
+\>", "Text",
+ CellChangeTimes->{{3.573582343707551*^9, 3.5735823537555604`*^9}, {
+  3.5738396430150414`*^9, 3.5738396789310412`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"GroundStateFC", "[", 
+   RowBox[{"x_", ",", "\[Alpha]_"}], "]"}], ":=", 
+  RowBox[{"\[Psi]v", "[", 
+   RowBox[{"x", ",", "\[Alpha]", ",", "0"}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.573702222657135*^9, 3.573702239634833*^9}, {
+  3.573702426267494*^9, 3.5737024474036074`*^9}, {3.5737681959916945`*^9, 
+  3.5737682035732946`*^9}, {3.573832935796387*^9, 3.5738329403878465`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"\[Psi]0", "[", 
+   RowBox[{"x_", ",", "\[CapitalDelta]r_", ",", "\[Alpha]_"}], "]"}], ":=", 
+  RowBox[{"\[Psi]v", "[", 
+   RowBox[{
+    RowBox[{"x", "-", "\[CapitalDelta]r"}], ",", "\[Alpha]", ",", "0"}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"\[Psi]1", "[", 
+   RowBox[{"x_", ",", "\[CapitalDelta]r_", ",", "\[Alpha]_"}], "]"}], ":=", 
+  RowBox[{"\[Psi]v", "[", 
+   RowBox[{
+    RowBox[{"x", "-", "\[CapitalDelta]r"}], ",", "\[Alpha]", ",", "1"}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"\[Psi]2", "[", 
+   RowBox[{"x_", ",", "\[CapitalDelta]r_", ",", "\[Alpha]_"}], "]"}], ":=", 
+  RowBox[{"\[Psi]v", "[", 
+   RowBox[{
+    RowBox[{"x", "-", "\[CapitalDelta]r"}], ",", "\[Alpha]", ",", "2"}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"\[Psi]3", "[", 
+   RowBox[{"x_", ",", "\[CapitalDelta]r_", ",", "\[Alpha]_"}], "]"}], ":=", 
+  RowBox[{"\[Psi]v", "[", 
+   RowBox[{
+    RowBox[{"x", "-", "\[CapitalDelta]r"}], ",", "\[Alpha]", ",", "3"}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"\[Psi]4", "[", 
+   RowBox[{"x_", ",", "\[CapitalDelta]r_", ",", "\[Alpha]_"}], "]"}], ":=", 
+  RowBox[{"\[Psi]v", "[", 
+   RowBox[{
+    RowBox[{"x", "-", "\[CapitalDelta]r"}], ",", "\[Alpha]", ",", "4"}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"\[Psi]5", "[", 
+   RowBox[{"x_", ",", "\[CapitalDelta]r_", ",", "\[Alpha]_"}], "]"}], ":=", 
+  RowBox[{"\[Psi]v", "[", 
+   RowBox[{
+    RowBox[{"x", "-", "\[CapitalDelta]r"}], ",", "\[Alpha]", ",", "5"}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"\[Psi]6", "[", 
+   RowBox[{"x_", ",", "\[CapitalDelta]r_", ",", "\[Alpha]_"}], "]"}], ":=", 
+  RowBox[{"\[Psi]v", "[", 
+   RowBox[{
+    RowBox[{"x", "-", "\[CapitalDelta]r"}], ",", "\[Alpha]", ",", "6"}], 
+   "]"}]}]}], "Input",
+ CellChangeTimes->{{3.573555851012102*^9, 3.5735558536363645`*^9}, {
+  3.573581529401004*^9, 3.5735815297199717`*^9}, {3.5735818837943654`*^9, 
+  3.5735818845773654`*^9}, {3.573582373186446*^9, 3.573582389716751*^9}, {
+  3.573688502610276*^9, 3.573688519941876*^9}, {3.573715883207271*^9, 
+  3.5737159007610264`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[StyleBox["Integration Factors", "Subsubsection"]], \
+"Subsubsection",
+ CellChangeTimes->{{3.5738321475215216`*^9, 3.573832154112521*^9}, {
+  3.573832188447521*^9, 3.5738321956305213`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"fcf0", "[", "\[CapitalDelta]r_", "]"}], ":=", 
+  RowBox[{"Integrate", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GroundStateFC", "[", 
+      RowBox[{"x", ",", "\[Alpha]"}], "]"}], "*", 
+     RowBox[{"\[Psi]0", "[", 
+      RowBox[{"x", ",", "\[CapitalDelta]r", ",", "\[Alpha]"}], "]"}]}], ",", 
+    RowBox[{"{", 
+     RowBox[{"x", ",", 
+      RowBox[{"\[CapitalDelta]r", "-", "3.5"}], ",", 
+      RowBox[{"\[CapitalDelta]r", "+", "3.5"}]}], "}"}]}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"fcf1", "[", "\[CapitalDelta]r_", "]"}], ":=", 
+  RowBox[{"Integrate", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GroundStateFC", "[", 
+      RowBox[{"x", ",", "\[Alpha]"}], "]"}], "*", 
+     RowBox[{"\[Psi]1", "[", 
+      RowBox[{"x", ",", "\[CapitalDelta]r", ",", "\[Alpha]"}], "]"}]}], ",", 
+    RowBox[{"{", 
+     RowBox[{"x", ",", 
+      RowBox[{"\[CapitalDelta]r", "-", "3.5"}], ",", 
+      RowBox[{"\[CapitalDelta]r", "+", "3.5"}]}], "}"}]}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"fcf2", "[", "\[CapitalDelta]r_", "]"}], ":=", 
+  RowBox[{"Integrate", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GroundStateFC", "[", 
+      RowBox[{"x", ",", "\[Alpha]"}], "]"}], "*", 
+     RowBox[{"\[Psi]2", "[", 
+      RowBox[{"x", ",", "\[CapitalDelta]r", ",", "\[Alpha]"}], "]"}]}], ",", 
+    RowBox[{"{", 
+     RowBox[{"x", ",", 
+      RowBox[{"\[CapitalDelta]r", "-", "3.5"}], ",", 
+      RowBox[{"\[CapitalDelta]r", "+", "3.5"}]}], "}"}]}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"fcf3", "[", "\[CapitalDelta]r_", "]"}], ":=", 
+  RowBox[{"Integrate", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GroundStateFC", "[", 
+      RowBox[{"x", ",", "\[Alpha]"}], "]"}], "*", 
+     RowBox[{"\[Psi]3", "[", 
+      RowBox[{"x", ",", "\[CapitalDelta]r", ",", "\[Alpha]"}], "]"}]}], ",", 
+    RowBox[{"{", 
+     RowBox[{"x", ",", 
+      RowBox[{"\[CapitalDelta]r", "-", "3.5"}], ",", 
+      RowBox[{"\[CapitalDelta]r", "+", "3.5"}]}], "}"}]}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"fcf4", "[", "\[CapitalDelta]r_", "]"}], ":=", 
+  RowBox[{"Integrate", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GroundStateFC", "[", 
+      RowBox[{"x", ",", "\[Alpha]"}], "]"}], "*", 
+     RowBox[{"\[Psi]4", "[", 
+      RowBox[{"x", ",", "\[CapitalDelta]r", ",", "\[Alpha]"}], "]"}]}], ",", 
+    RowBox[{"{", 
+     RowBox[{"x", ",", 
+      RowBox[{"\[CapitalDelta]r", "-", "3.5"}], ",", 
+      RowBox[{"\[CapitalDelta]r", "+", "3.5"}]}], "}"}]}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"fcf5", "[", "\[CapitalDelta]r_", "]"}], ":=", 
+  RowBox[{"Integrate", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GroundStateFC", "[", 
+      RowBox[{"x", ",", "\[Alpha]"}], "]"}], "*", 
+     RowBox[{"\[Psi]5", "[", 
+      RowBox[{"x", ",", "\[CapitalDelta]r", ",", "\[Alpha]"}], "]"}]}], ",", 
+    RowBox[{"{", 
+     RowBox[{"x", ",", 
+      RowBox[{"\[CapitalDelta]r", "-", "3.5"}], ",", 
+      RowBox[{"\[CapitalDelta]r", "+", "3.5"}]}], "}"}]}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"fcf6", "[", "\[CapitalDelta]r_", "]"}], ":=", 
+  RowBox[{"Integrate", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"GroundStateFC", "[", 
+      RowBox[{"x", ",", "\[Alpha]"}], "]"}], "*", 
+     RowBox[{"\[Psi]6", "[", 
+      RowBox[{"x", ",", "\[CapitalDelta]r", ",", "\[Alpha]"}], "]"}]}], ",", 
+    RowBox[{"{", 
+     RowBox[{"x", ",", 
+      RowBox[{"\[CapitalDelta]r", "-", "3.5"}], ",", 
+      RowBox[{"\[CapitalDelta]r", "+", "3.5"}]}], "}"}]}], "]"}]}]}], "Input",
+ CellChangeTimes->{{3.573587044842822*^9, 3.57358705142348*^9}, {
+  3.5735872877721124`*^9, 3.573587295273863*^9}, {3.5738276274005866`*^9, 
+  3.5738276682346697`*^9}, {3.573828079375943*^9, 3.5738281049269433`*^9}, {
+  3.5738329503398414`*^9, 3.573832964356243*^9}, {3.573839549596041*^9, 
+  3.5738396242180414`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"fcflist", "[", "\[CapitalDelta]r_", "]"}], ":=", 
+  RowBox[{"N", "[", 
+   RowBox[{"Through", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "fcf0", ",", "fcf1", ",", "fcf2", ",", "fcf3", ",", "fcf4", ",", "fcf5",
+        ",", "fcf6"}], "}"}], "[", "\[CapitalDelta]r", "]"}], "]"}], 
+   "]"}]}]], "Input",
+ CellChangeTimes->{{3.573839686839041*^9, 3.573839688406041*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["initialization of variables", "Subsubsection",
+ CellChangeTimes->{{3.5737019733812103`*^9, 3.5737019767255445`*^9}}],
+
+Cell["\<\
+Here I assumed an electronic transition of 250 nm with a guassian \
+approximation to curve and a vibrational component of 1200 cm^-1 for the 0-0 \
+transition. This is the C=C bond in ethene.\
+\>", "Text",
+ CellChangeTimes->{{3.57351036500904*^9, 3.5735103959959407`*^9}, {
+  3.573839706130041*^9, 3.573839757087041*^9}, {3.5738398220750413`*^9, 
+  3.573839854025875*^9}, {3.573839906524124*^9, 3.5738399190853806`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{"\[Alpha]", ":=", "1"}], "\[IndentingNewLine]", 
+ RowBox[{"\[Lambda]0", ":=", "250"}], "\[IndentingNewLine]", 
+ RowBox[{"h", ":=", 
+  RowBox[{"6.62", " ", "*", 
+   RowBox[{"10", "^", 
+    RowBox[{"-", "34"}]}]}]}], "\[IndentingNewLine]", 
+ RowBox[{"clight", ":=", 
+  RowBox[{"3", "*", 
+   RowBox[{"10", "^", "8"}]}]}], "\[IndentingNewLine]", 
+ RowBox[{"\[Lambda]min", ":=", "200"}], "\[IndentingNewLine]", 
+ RowBox[{"\[Lambda]max", ":=", "300"}], "\[IndentingNewLine]", 
+ RowBox[{"\[Nu]", ":=", "1200"}], "\[IndentingNewLine]", 
+ RowBox[{"\[Omega]", ":=", 
+  RowBox[{"clight", "*", "\[Nu]", "*", "100"}]}], "\[IndentingNewLine]", 
+ RowBox[{"\[CapitalDelta]\[Lambda]", ":=", "5"}], "\[IndentingNewLine]", 
+ RowBox[{"\[Sigma]", ":=", 
+  RowBox[{
+  "\[CapitalDelta]\[Lambda]", "/", 
+   "2.35"}]}], "\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->{{3.573510343972144*^9, 3.57351034630991*^9}, {
+   3.5735104013574047`*^9, 3.573510438487691*^9}, {3.5735105098055587`*^9, 
+   3.5735105107494645`*^9}, {3.5735116019435625`*^9, 3.5735116084552135`*^9}, 
+   3.5735130224676003`*^9, 3.5735134019255424`*^9, {3.5735241324515066`*^9, 
+   3.5735241327395353`*^9}, 3.5737019222941017`*^9, {3.5737023288567543`*^9, 
+   3.5737023373996086`*^9}, {3.5738322236675215`*^9, 3.5738322266735215`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"Enorm", ":=", 
+  RowBox[{
+   RowBox[{"(", 
+    RowBox[{"h", "*", "clight", "*", 
+     RowBox[{"10", "^", "9"}]}], ")"}], "/", 
+   "\[Lambda]0"}]}], "\[IndentingNewLine]", 
+ RowBox[{"krange", ":=", 
+  RowBox[{"Range", "[", 
+   RowBox[{"0", ",", "6"}], "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"Ek", "=", 
+  RowBox[{"Enorm", "+", 
+   RowBox[{"krange", "*", "h", "*", "\[Omega]"}]}]}], "\[IndentingNewLine]", 
+ RowBox[{"\[Lambda]center", ":=", 
+  RowBox[{
+   RowBox[{"(", 
+    RowBox[{"h", "*", "clight", "*", 
+     RowBox[{"10", "^", "9"}]}], ")"}], "/", "Ek"}]}]}], "Input",
+ CellChangeTimes->{{3.5738322748605213`*^9, 3.5738322750855217`*^9}, {
+  3.5738323162505217`*^9, 3.5738323290665216`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+  "7.944000000000002`*^-19", ",", "8.182320000000002`*^-19", ",", 
+   "8.420640000000002`*^-19", ",", "8.658960000000002`*^-19", ",", 
+   "8.897280000000002`*^-19", ",", "9.135600000000002`*^-19", ",", 
+   "9.373920000000002`*^-19"}], "}"}]], "Output",
+ CellChangeTimes->{3.5738329721550226`*^9}]
+}, Open  ]],
+
+Cell[BoxData[{
+ RowBox[{"maxpts", ":=", "200"}], "\[IndentingNewLine]", 
+ RowBox[{"\[Lambda]incr", ":=", 
+  RowBox[{
+   RowBox[{"(", 
+    RowBox[{"\[Lambda]max", "-", "\[Lambda]min"}], ")"}], "/", 
+   "maxpts"}]}], "\[IndentingNewLine]", 
+ RowBox[{"step", ":=", 
+  RowBox[{"Range", "[", 
+   RowBox[{"0", ",", "maxpts"}], "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"\[Lambda]", ":=", 
+  RowBox[{"\[Lambda]", "=", 
+   RowBox[{"\[Lambda]min", "+", 
+    RowBox[{"step", "*", "\[Lambda]incr"}]}]}]}]}], "Input",
+ CellChangeTimes->{{3.5735107705654535`*^9, 3.573510818847453*^9}, {
+  3.573511295356907*^9, 3.5735112965860295`*^9}, {3.5735113542537956`*^9, 
+  3.5735113552928996`*^9}, {3.573512272458607*^9, 3.573512274835845*^9}, {
+  3.573589912189528*^9, 3.573589914860795*^9}, {3.573591936645958*^9, 
+  3.5735919369489884`*^9}, {3.5738278221300573`*^9, 3.573827847236568*^9}}],
+
+Cell[BoxData[
+ RowBox[{"NumericalGuassian", ":=", 
+  RowBox[{"Table", "[", 
+   RowBox[{
+    SuperscriptBox["\[ExponentialE]", 
+     RowBox[{
+      RowBox[{"-", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"\[Lambda]", "[", 
+           RowBox[{"[", "q", "]"}], "]"}], "-", 
+          RowBox[{"\[Lambda]center", "[", 
+           RowBox[{"[", "w", "]"}], "]"}]}], ")"}], "^", "2"}]}], "/", 
+      RowBox[{"(", 
+       RowBox[{"2", "*", 
+        RowBox[{"\[Sigma]", "^", "2"}]}], ")"}]}]], ",", 
+    RowBox[{"{", 
+     RowBox[{"w", ",", "7"}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"q", ",", "maxpts"}], "}"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.573510827540453*^9, 3.5735108899804535`*^9}, {
+  3.5737855239328184`*^9, 3.573785524172842*^9}, {3.5737865272881436`*^9, 
+  3.5737865440568204`*^9}, {3.5738270628681393`*^9, 3.5738270727081227`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Plots", "Subsubsection",
+ CellChangeTimes->{{3.5738401502464943`*^9, 3.5738401509985695`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"fcflist", "[", "1", "]"}], "\[IndentingNewLine]", 
+ RowBox[{"NumGaussSum1", ":=", 
+  RowBox[{"NumGaussSum1", "=", 
+   RowBox[{"Sum", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"NumericalGuassian", "[", 
+       RowBox[{"[", "w", "]"}], "]"}], "*", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"fcflist", "[", "1", "]"}], "[", 
+         RowBox[{"[", "w", "]"}], "]"}], ")"}], "^", "2"}]}], ",", 
+     RowBox[{"{", 
+      RowBox[{"w", ",", "1", ",", "7"}], "}"}]}], 
+    "]"}]}]}], "\[IndentingNewLine]", 
+ RowBox[{"NumericalIntensity1", ":=", 
+  RowBox[{"NumericalIntensity1", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"\[Lambda]", "[", 
+        RowBox[{"[", "y", "]"}], "]"}], ",", 
+       RowBox[{"NumGaussSum1", "[", 
+        RowBox[{"[", "y", "]"}], "]"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"y", ",", "1", ",", "maxpts"}], "}"}]}], 
+    "]"}]}]}], "\[IndentingNewLine]", 
+ RowBox[{"ListPlot", "[", 
+  RowBox[{"NumericalIntensity1", ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"PlotJoined", "\[Rule]", "True"}], ",", 
+     RowBox[{"AxesLabel", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"\"\<\[Lambda][[step]]\>\"", ",", "\"\<intensity\>\""}], 
+       "}"}]}]}], "}"}], ",", 
+   RowBox[{"PlotRange", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{"0", ",", ".6"}], "}"}]}]}], "]"}]}], "Input",
+ CellChangeTimes->{{3.573828765326372*^9, 3.57382877590343*^9}, 
+   3.5738288233011694`*^9, {3.5738288866775064`*^9, 3.5738289046613045`*^9}, {
+   3.5738324925655212`*^9, 3.573832521027521*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"0.778792175019738`", ",", 
+   RowBox[{"-", "0.5506509200541225`"}], ",", "0.27519113714627746`", ",", 
+   RowBox[{"-", "0.11197879030788771`"}], ",", "0.03875680396056426`", ",", 
+   RowBox[{"-", "0.010660457886393703`"}], ",", "0.0004562474107377984`"}], 
+  "}"}]], "Output",
+ CellChangeTimes->{3.5738329830001073`*^9}],
+
+Cell[BoxData[
+ GraphicsBox[{{}, {}, 
+   {Hue[0.67, 0.6, 0.6], LineBox[CompressedData["
+1:eJwtzwtM1WUYx/EjyEHF4RFERcjhRipyVQE1tPMLUUxELiFCDUHjCP/rAUIU
+OTGQCYqoXJLIXB2zmU1DQrkcAiIgEmyEILdEPVqiggbmlGwMIt/n3f7777u9
+z7P3s2SPNlRjolAoNFPf/392ODzwrs3kah03vE4Vh0vSmbDicl/WDhzCB15t
++vBRNGsPDkURrlYfNKWyBge9e1cLLhexDp5qpYvZiv2XWMdwKDUtzPM+2MQ6
+gYOV8lDr4Lp+1hkc1Idzzl988hfrfA7D6zx9Jp5Ne/t16zkERHxi02SwZl3G
+Id7M9Qfb446sGzi4B9Sk+od6su7goC38qWPZ4o2sjRyEkTsVvHsI61EO+3R5
+Ke51UawVPBaNBNXYqTjWKh7Ot99NHnuazNqBR08O51NZmsnag0f2ZZdtttdO
+sAaPiSu6u/Wtn7MOnrpvGnp/sO1b1jE8xi90FJctrWadwKM/f4coR7awzuDx
+Rk5L/E67m6zzeXAW9VmpsffIz8PjZZdhX+0T8vOY3D6q9Cp+SX4ebyI1PmxA
+oWZ+HiYWk8P8A3PWRh6zKmfOLpmvYj3KQ7lywuXM2XmsFQKUSbs+mgyxZa0S
+YJ8+erhMsZi1gwBrp/CJNm4Jaw8BzoXdPjfWOrKGgFzfwoV6q+WsgwVU2nkf
+XD7syjpGwNBJ3Qa3pNWsEwQMvwq4oFG+xTpDQH9iw8HszHdY5wv4wml21MkV
+/qz1AjYnju+tuhrIukxAQbX9Gt/AUNYNAl5cT4xZcGYH+QWYvddxJCUzgvwC
+tuwfX5n86H3yC0jbZNbVNyeK/CJWrbfo/k4fTX4Ry1qupql6dpNfxMO5vanT
+/TTkF1Fgquy2bObJPzWf+496Rlwi+UUY/ALThgwp5Bfh/LOq/Zn9x+Sf2rc0
+6/wL00PkF2HMev68Oeow+UX4O8PzofcR8osIMPQWlfjlkl9EhlpT7XTgGPlF
+3Ci5oyu1zSO/iNu9NuZbO6mNIl6OLNHt/fIE+UU4LvctnxdeQH4JSn/VtO9n
+niK/hMHdhjhV62nySxAtNSZ528+SX0JuT2vCKcvz5JdQG77TTe11kfwSIu0U
+vmbWZeSXsEsee7XKrpz8El7MH4qOFq+QX0LS0QWLDH9S50soj1SO6Euo9RKS
+t16Yoe2n+TIJ/1ZO9C1wp26Q8Dxozd8P/Kg7JFik63aeu07zRglr9zSGDYRV
+kV/CZ/apNl4udeSXEfp4POnZ6Ubyy9ANuAYZpV/IL6Pzcc3F40d/Jb+Mmtic
+Ca2+g/wyshuC7s5J6CS/jM3ffFqvErrILyPRLNs0SKJOkBHwW16WWxbdz5CR
+VOLW82SI9uXL+GpPs/i7TTv5Zaz7usi25cc28ssY7i3YmNJ+jfwypgnFY9us
+W8kvY9aBefYaFb3XKGO9pB6Pe0r7R2V0nasKCZneTX4tbtXtW5je109+LbbM
+LakQGu+QX4uBmgrpZsY98msRvd8htmb0vvpWjnlEzFotVr8+f6j/A/xJ50Y=
+
+     "]], LineBox[CompressedData["
+1:eJwl0XlQ1GUcx/H1SlwMUNfAI7lCUBRYDlmJ5KMjV0AopSLmsKIQqPV7nmcQ
+kQQ28QJ0RY0imdGlKCFE1iuZvFAxUBFcGZFh1GRBQxFmEadAsVr5PjPPPPP6
+45nneDsmSDGJI2Uy2TrzfLtemZGc+SJEgs/w6AiSvR1LJHhssty5utNIVku4
+sDu/Liqhncwk7PGeV1YU+pCskWDV4mJx9WUruUBCwOtfP7mT1kzWSVi1Xqud
+fK6BrJfwXl6j/VWbWnKNBJ3vH7Hbd/xOvi1BY+g/3l+oJz+SEHVLeh5U8hPZ
+ZD7PKbF57FAhWcbw2O7UybTIXWQLhj/tL8oTV28m2zA03U/zt5uTRLZjuKzv
+PPeq61OyA8PmoWUx8m6Q3Rj8CsbW9fm6k70YrrwT5fzVKQVZxWCpqxi0bXqz
+YNhgCIjMrHSI7iSHMSgvxx6/7nmDvIRhvGbj31v7q8ixDGfkh0c/4wfIavP5
+73umdMxMJScz9B1oOLDl7mdkxvBP6d2ks2t8yekMquDSHv+HE8kahrTF+5UL
+d5k+GvZuBtFdnNWSdJNcwHDQpMhPyvqZXGTe310kxXRlk3UMP/Q3typTlpPL
+GCLqrOaG3JhL1jM8sN3zOO78SHI1g/Pa4oz+yJZA6scQbx2UYDejnFzPsMEm
+ptf/Wgb5NoPCe+eCS/99TG5lqMurD0ftFPIjho0meVbv4r8+HHYXgyGXK/KN
+p8gmBtOOwR1MoSEPMLy553i/rjiMLONocQ1e9K1hAtmCY0SzwTBmQ2sA9edw
+f/rBi97yI2Q7juN3vCIWfbmW7MDxQl3RVKqdSXbj2Db2+6td9V3zqT9H5UKb
+1J7acrKKY4ytMZvFpZDBcTJTObnwkCs5jMOWh0N9s1NF/TlafVwHGpaVkGM5
+PKZNc9OuXEVWczh5TulIXa8gJ3OU2hdE7b/X4E/9OeZPD5kSEppDTudI7Xey
+d1yrIms4lq3YORCk7JlH/Tlml9tu1u7WkQs4Am+GH6uuXkouMv/HqsD2jMER
+ZB1Ho9F5WjJO+FF/jtqemqcTl8eT9RyZLs+zo3rl5GqOY9njMs8/OeNL/Tm8
+5N9kHG1Tk+s5qqzn5bTnW5Bvc7yOz/tF8UzvQ/3N71fliidWy8mPzPeJvOSx
+XfXam/pzGCe5v1l//QjZxPHswZrK5/sWkgc4xI/rLBWrjUrqLxB/oTs6030b
+2UKgws4h2mWUI9lGYLtiqErpctGL+gtMbzsdOBC8kuwgELc3NKV9/EtP6i9g
+nfVdddlULdlLIH3NkF95ggtZJdD170BfaM15D+ov4H/2jLwtPIYcJjDuZaK3
+3+gnc6m/gG5W+q69ii3kWIGaVznXFOMsyWoBry9KFlw/WDyH+gvUWZy79fnh
+2WRmvk+Jz9NJS6rdqb9AY3nTb1tHBZM1AkEnDIUnPQ2zqb+AMa/vXetDceQC
+AVnehKURX3fMov4C9aqj6StkG8g6gfZbVbK2031u1F9gy4SpjrmDm8h6gcHH
+HdqcxkFX6i8QHWCVdLpyq+v/6CDnXw==
+     "]]}},
+  AspectRatio->NCache[GoldenRatio^(-1), 0.6180339887498948],
+  Axes->True,
+  AxesLabel->{
+    FormBox["\"\[Lambda][[step]]\"", TraditionalForm], 
+    FormBox["\"intensity\"", TraditionalForm]},
+  AxesOrigin->{200., 0},
+  PlotRange->{{200., 299.5}, {0, 0.6}},
+  PlotRangeClipping->True,
+  PlotRangePadding->{
+    Scaled[0.02], Automatic}]], "Output",
+ CellChangeTimes->{3.5738329863924465`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"fcflist", "[", "1.5", "]"}], "\[IndentingNewLine]", 
+ RowBox[{"NumGaussSum15", ":=", 
+  RowBox[{"NumGaussSum15", "=", 
+   RowBox[{"Sum", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"NumericalGuassian", "[", 
+       RowBox[{"[", "w", "]"}], "]"}], "*", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"fcflist", "[", "1.5", "]"}], "[", 
+         RowBox[{"[", "w", "]"}], "]"}], ")"}], "^", "2"}]}], ",", 
+     RowBox[{"{", 
+      RowBox[{"w", ",", "1", ",", "7"}], "}"}]}], 
+    "]"}]}]}], "\[IndentingNewLine]", 
+ RowBox[{"NumericalIntensity15", ":=", 
+  RowBox[{"NumericalIntensity15", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"\[Lambda]", "[", 
+        RowBox[{"[", "y", "]"}], "]"}], ",", 
+       RowBox[{"NumGaussSum15", "[", 
+        RowBox[{"[", "y", "]"}], "]"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"y", ",", "1", ",", "maxpts"}], "}"}]}], 
+    "]"}]}]}], "\[IndentingNewLine]", 
+ RowBox[{"ListPlot", "[", 
+  RowBox[{"NumericalIntensity15", ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"PlotJoined", "\[Rule]", "True"}], ",", 
+     RowBox[{"AxesLabel", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"\"\<\[Lambda]\>\"", ",", "\"\<intensity\>\""}], "}"}]}]}], 
+    "}"}]}], "]"}]}], "Input",
+ CellChangeTimes->{3.5738398893164034`*^9}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"0.5697541578822026`", ",", 
+   RowBox[{"-", "0.6041974414640804`"}], ",", "0.4527347030564262`", ",", 
+   RowBox[{"-", "0.2761092064788013`"}], ",", "0.14386338200804089`", ",", 
+   RowBox[{"-", "0.06332149722950767`"}], ",", "0.019352399633976662`"}], 
+  "}"}]], "Output",
+ CellChangeTimes->{3.5738329920470114`*^9}],
+
+Cell[BoxData[
+ GraphicsBox[{{}, {}, 
+   {Hue[0.67, 0.6, 0.6], LineBox[CompressedData["
+1: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
+     "]]}},
+  AspectRatio->NCache[GoldenRatio^(-1), 0.6180339887498948],
+  Axes->True,
+  AxesLabel->{
+    FormBox["\"\[Lambda][[step]]\"", TraditionalForm], 
+    FormBox["\"intensity\"", TraditionalForm]},
+  AxesOrigin->{200., 0},
+  PlotRange->{{200., 299.5}, {0., 0.36533418181958127`}},
+  PlotRangeClipping->True,
+  PlotRangePadding->{
+    Scaled[0.02], 
+    Scaled[0.02]}]], "Output",
+ CellChangeTimes->{3.5738329969275*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"fcflist", "[", "2", "]"}], "\[IndentingNewLine]", 
+ RowBox[{"NumGaussSum2", ":=", 
+  RowBox[{"NumGaussSum2", "=", 
+   RowBox[{"Sum", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"NumericalGuassian", "[", 
+       RowBox[{"[", "w", "]"}], "]"}], "*", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"fcflist", "[", "2", "]"}], "[", 
+         RowBox[{"[", "w", "]"}], "]"}], ")"}], "^", "2"}]}], ",", 
+     RowBox[{"{", 
+      RowBox[{"w", ",", "1", ",", "7"}], "}"}]}], 
+    "]"}]}]}], "\[IndentingNewLine]", 
+ RowBox[{"NumericalIntensity2", ":=", 
+  RowBox[{"NumericalIntensity2", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"\[Lambda]", "[", 
+        RowBox[{"[", "y", "]"}], "]"}], ",", 
+       RowBox[{"NumGaussSum2", "[", 
+        RowBox[{"[", "y", "]"}], "]"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"y", ",", "1", ",", "maxpts"}], "}"}]}], 
+    "]"}]}]}], "\[IndentingNewLine]", 
+ RowBox[{"ListPlot", "[", 
+  RowBox[{"NumericalIntensity2", ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"PlotJoined", "\[Rule]", "True"}], ",", 
+     RowBox[{"AxesLabel", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"\"\<\[Lambda][[step]]\>\"", ",", "\"\<intensity\>\""}], 
+       "}"}]}]}], "}"}]}], "]"}]}], "Input"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"0.3678045864948961`", ",", 
+   RowBox[{"-", "0.5198709161695303`"}], ",", "0.5188793002793874`", ",", 
+   RowBox[{"-", "0.4209450650953042`"}], ",", "0.29149863074900584`", ",", 
+   RowBox[{"-", "0.17255978688454854`"}], ",", "0.08027715759851789`"}], 
+  "}"}]], "Output",
+ CellChangeTimes->{3.573833002820089*^9}],
+
+Cell[BoxData[
+ GraphicsBox[{{}, {}, 
+   {Hue[0.67, 0.6, 0.6], LineBox[CompressedData["
+1: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
+     "]]}},
+  AspectRatio->NCache[GoldenRatio^(-1), 0.6180339887498948],
+  Axes->True,
+  AxesLabel->{
+    FormBox["\"\[Lambda][[step]]\"", TraditionalForm], 
+    FormBox["\"intensity\"", TraditionalForm]},
+  AxesOrigin->{200., 0},
+  PlotRange->{{200., 299.5}, {0., 0.27176250646471367`}},
+  PlotRangeClipping->True,
+  PlotRangePadding->{
+    Scaled[0.02], 
+    Scaled[0.02]}]], "Output",
+ CellChangeTimes->{3.573833006073414*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"fcflist", "[", "2.5", "]"}], "\[IndentingNewLine]", 
+ RowBox[{"NumGaussSum25", ":=", 
+  RowBox[{"NumGaussSum25", "=", 
+   RowBox[{"Sum", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"NumericalGuassian", "[", 
+       RowBox[{"[", "w", "]"}], "]"}], "*", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"fcflist", "[", "2.5", "]"}], "[", 
+         RowBox[{"[", "w", "]"}], "]"}], ")"}], "^", "2"}]}], ",", 
+     RowBox[{"{", 
+      RowBox[{"w", ",", "1", ",", "7"}], "}"}]}], 
+    "]"}]}]}], "\[IndentingNewLine]", 
+ RowBox[{"NumericalIntensity25", ":=", 
+  RowBox[{"Table", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"\[Lambda]", "[", 
+       RowBox[{"[", "y", "]"}], "]"}], ",", 
+      RowBox[{"NumGaussSum25", "[", 
+       RowBox[{"[", "y", "]"}], "]"}]}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"y", ",", "1", ",", "maxpts"}], "}"}]}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"ListPlot", "[", 
+  RowBox[{"NumericalIntensity25", ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"PlotJoined", "\[Rule]", "True"}], ",", 
+     RowBox[{"AxesLabel", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"\"\<\[Lambda][[step]]\>\"", ",", "\"\<intensity\>\""}], 
+       "}"}]}]}], "}"}]}], "]"}]}], "Input"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"0.2094580861227888`", ",", 
+   RowBox[{"-", "0.36974377388199464`"}], ",", "0.4603271364683646`", ",", 
+   RowBox[{"-", "0.464741315118659`"}], ",", "0.39927909749686225`", ",", 
+   RowBox[{"-", "0.29361227079413627`"}], ",", "0.175745347860557`"}], 
+  "}"}]], "Output",
+ CellChangeTimes->{3.5738330097687836`*^9}],
+
+Cell[BoxData[
+ GraphicsBox[{{}, {}, 
+   {Hue[0.67, 0.6, 0.6], LineBox[CompressedData["
+1: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
+     "]]}},
+  AspectRatio->NCache[GoldenRatio^(-1), 0.6180339887498948],
+  Axes->True,
+  AxesLabel->{
+    FormBox["\"\[Lambda][[step]]\"", TraditionalForm], 
+    FormBox["\"intensity\"", TraditionalForm]},
+  AxesOrigin->{200., 0},
+  PlotRange->{{200., 299.5}, {0., 0.22000091505102964`}},
+  PlotRangeClipping->True,
+  PlotRangePadding->{
+    Scaled[0.02], 
+    Scaled[0.02]}]], "Output",
+ CellChangeTimes->{3.57383301463027*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"fcflist", "[", "3", "]"}], "\[IndentingNewLine]", 
+ RowBox[{"NumGaussSum3", ":=", 
+  RowBox[{"NumGaussSum3", "=", 
+   RowBox[{"Sum", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"NumericalGuassian", "[", 
+       RowBox[{"[", "w", "]"}], "]"}], "*", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"fcflist", "[", "3", "]"}], "[", 
+         RowBox[{"[", "w", "]"}], "]"}], ")"}], "^", "2"}]}], ",", 
+     RowBox[{"{", 
+      RowBox[{"w", ",", "1", ",", "7"}], "}"}]}], 
+    "]"}]}]}], "\[IndentingNewLine]", 
+ RowBox[{"NumericalIntensity3", ":=", 
+  RowBox[{"Table", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"\[Lambda]", "[", 
+       RowBox[{"[", "y", "]"}], "]"}], ",", 
+      RowBox[{"NumGaussSum3", "[", 
+       RowBox[{"[", "y", "]"}], "]"}]}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"y", ",", "1", ",", "maxpts"}], "}"}]}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"ListPlot", "[", 
+  RowBox[{"NumericalIntensity3", ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"PlotJoined", "\[Rule]", "True"}], ",", 
+     RowBox[{"AxesLabel", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"\"\<\[Lambda][[step]]\>\"", ",", "\"\<intensity\>\""}], 
+       "}"}]}]}], "}"}]}], "]"}]}], "Input"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"0.10515270974192915`", ",", 
+   RowBox[{"-", "0.22229244258124342`"}], ",", "0.3307431746562116`", ",", 
+   RowBox[{"-", "0.39768741311632194`"}], ",", "0.40508160459988607`", ",", 
+   RowBox[{"-", "0.35221803422007203`"}], ",", "0.2524302895824269`"}], 
+  "}"}]], "Output",
+ CellChangeTimes->{3.5738330220050073`*^9}],
+
+Cell[BoxData[
+ GraphicsBox[{{}, {}, 
+   {Hue[0.67, 0.6, 0.6], LineBox[CompressedData["
+1:eJw11QtYTekex/FcTiLRHLfQ1Ba6knSzdf2RiTEuWzlugwnl2Pe11unMaZim
+qIRKqdxVO7kkZGsqRYhESmSkRJJTqTFRcim5dDr+r56np+fz7LXfd33Xf/W8
+49aqfQL66ujolPT+/v8v/UjRZjUu97zzHI8vNJQi84zukKX3A8giKW6+sDIf
+nrqFbCfFNf8NOeNGJJMhhejzJk3Vh1yyRIqG+I+1j5IqyH5SuLl9dFlb8IzM
+SXG3zmJlq/oTOVQK64R/LxX0/u75xXFSTHMt9DBtmUDWSNFa5ag52eZM1vau
+7zK4eu+d2eRCKbannM4W+S8lV0jR1ZEhHLoUQK6XItr+StZz0b/I7VJ8bM1z
+dqsJIevIcGaFSG/3qO1kQxlMqw6cHJwbTxbJoN+xWqiXHSDbyfBub7D12BOp
+ZMhw5cbsPWK/Y2SJDE0jwsZvbcog+8nw+/sLjV0FmWROBttVHqNMi7TkUBny
+383bGBN7lvXLENthMmFnLbNGBknNzlT9VmatDMdHf44pGpPF+mUoveNyof06
+c4UMIXtyrmfaZ7N+GdZ1ywZNk+eyfhm8Z540znLPZ/1y2IuXR+h4FrB+OUKa
+ijd6P7vE+uX4ycIm5enyQtYvx9IlQ4yWnGKGHEPi3I+fljJL5NjFq4/0+fky
+65dDVGnVh6+8yPrlKK5cKJ2ZxPYLleNtvH12zwbmODminAauNIph12vkOLir
+tS6lh62nlSMnp8bHO+MK65cjfk/2ZXd5EeuXQ5Wy0OnUw2usX47awu9fS1KK
+Wb8c1YvX7syNZNZR4I+yCW6X97HrDRUwqb5v6G/A1hMpkPCryOnKbLafnQLB
+MQPyD6vZ/UABq4+fc4uD2f1KFJjk4t1HYcvsp4Aky75xfhR7npwCC9Z/2Jq4
+jz2vUAVmnV8z18TxKutX4Ois2Pdl6Wx/jQIdE4aHm8ay+9MqEBAY8nJYKnOh
+AsnFh2rvlX7tV+DRrcbx823ZevUK1E7PbjQZzfZrV+Ci4aRrx+ovsH4lNsn3
+fVM2JY/1K3HMdcishrwc1q9Ed3OsbfUN9j7ZKfGtqc/5wwvZ51Cipq28ybiD
+vV8SJdI2BvKWRuz98lNC7OK4omY4249TIvfh6Blm877OX4mRfb6L+2Xx1/kr
+MXbIwM7t+ux6jRKjorTyUfvZ/WmVCCld5OPpx/YvVELi3z59USP7/6hQ4kba
+gmumvqdZvxJma3dFWjims34ljGWXLWNajrB+FdYe3qEM2J7G+lUInXdWdPce
+s0gFj+UTytM8j7J+FcTzC7NsTY+zfhXKE94E5l1l60tUyM/Kb23ff4L1q/Cf
+PwsjfOczcyrcOTtus20p+36oCnVio823PNj6cSroXBJ57tA7zPpV0F9tEC91
+SGL9KrRL/LXdF/ewfhWuvDHJSFyyi/WrIFt29VRmzg7Wr0JD0Y9zWi5GsH4V
+usX6j1YFhrF+NY6Xm99a4shsqEbSuTUvHKeEs341ogMqTybEs+/bqeH/1/n7
+qvStrF+NEs8tPNqYJWrcDu+5H2zB7KdGWvTBGfaL2XqcGpvsi/S0mZtZvxqr
+kjtfbxwXzPrVaLZ4+roh92fWr0bHSN8TVkUc61dD16Jzb6z0n6xfjXcvj3y4
+82o161ejLviEYZ8VvqxfjU+vSr9xbfZm/Wokawfmhx2bzvo5NIw2LRs0xYas
+x8GzQWNTNnMsex4c7pYUrN5dN5BsxCH/b16/PXPpZOcjh6MBT9LcLzaQLTlM
+WdZ/xPJLd9h5yeFJZH5/Y4s8spiDg3l28811qez87F3vdmLV8KxI8hwOq25P
+PnckRsXOUw4v8hwW5aT5kJdxGJ+V0Tw3womdrxxazArvjwsbRd7AwXDsgEuV
+C7rcKY9DlJt2WPGNanIQh91RrmPT++WSQznYhHfdq5iTQN7GYdCex8mxXWpy
+HAcDvrG8ddj35H0cdM/55U9NMiNrONywefqpbmK32xenc2jK5M26/e6StRxC
+rB6GTaw9Ss7j8GH4p7fP+28kF3JI8xANkiyYTy7pfZ7hFQ8/uZqSKzhIOowP
+zw5tc/3iBxxe+mbdmmR4iVzPIT6v8oqneRS5hUOc0w+f1zksJbdzkM51bnt4
+1Yzc1fs8nGcdn5Xb6kLz5/HHX1uKxaXZZD0efZPHuK0J/pVsyKNJtfHHW0Ez
+yUY8RvLjE6MzdMkiHs+9TifGLSqdTvPnkaM+qtP6PJpsx6NUol/9znABWcwj
+7LGvKC/RgAwe57TyA7Y7ysQ0fx59Vq9eNNhrG1nCY9rNQ6nl02eRl/E4lVnn
+bfhnzzSaP4+V6rQTnXfPkTfweDP28U/r7nFkjsfBYdb1Lr+Zk4N4RGhf7bYJ
+rHWm+fOwnJL93+wBu8jbeES2Tz71j7le5Dge2qG6Q8Wn3zjR/Hncz7x7+nrX
+EbKGx5OQoNBq0WJyOo/mxX2F+tl9yVoeJYEfpr+Qn3Gk+fPoEndo0mOWkwt5
+/F408DvTjH7kkt4ey/CEc2mnHGj+PGYMndxpUuBLfsAjc+nCMREF7+1p/jy8
++j1oC7uaQm7h4bbFf6111ExyO48gfbfI5ODGqTR/HvFTXwd/UESQdQR8NnZ/
+buowkawngEuv3L+qpsiO5i9g2OauTf33rCEbCVgSpGdQ9eunKTR/AXN6ApJu
++u8lWwpYb+U94UnsVLKdgIThAb6xr0tsaf4CpJXvMsqL/cgQoDLtezl6ydvJ
+NH8BaqNImb52O1ki4Mybx1WTvb4lLxNwyMUiySbqzCSaf+9+Bj/Eho4EeYMA
+jdUR/fQhd2xo/gK2+laOfrVqJTlIgPZYpEF4eIs1zb93f2zJXmYQSN4mwCRX
+mXh4YI8VzV+Ag211Qev5reR9Aop9Nnu8Dx1K1gjQbcqfmp2eaEnzF/DLmqrr
+e9NGk7UCbMv3W5sbJ1vQ/AWIFbnrO8+LLP4HAgfnWA==
+     "]]}},
+  AspectRatio->NCache[GoldenRatio^(-1), 0.6180339887498948],
+  Axes->True,
+  AxesLabel->{
+    FormBox["\"\[Lambda][[step]]\"", TraditionalForm], 
+    FormBox["\"intensity\"", TraditionalForm]},
+  AxesOrigin->{200., 0},
+  PlotRange->{{200., 299.5}, {0., 0.16892444495488845`}},
+  PlotRangeClipping->True,
+  PlotRangePadding->{
+    Scaled[0.02], 
+    Scaled[0.02]}]], "Output",
+ CellChangeTimes->{3.5738330260984163`*^9}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Summary", "Subsubsection",
+ CellChangeTimes->{{3.573840132421712*^9, 3.5738401340698767`*^9}}],
+
+Cell[TextData[{
+ "As the difference in bond distance goes from 1 to 3 (with units of ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox[
+    RowBox[{"(", 
+     RowBox[{"\[HBar]", "/", "\[Omega]\[Mu]"}], ")"}], 
+    RowBox[{"1", "/", "2"}]], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ " you can see most likely vibrational mode goes from v0->v0 to v0->v5."
+}], "Text",
+ CellChangeTimes->{{3.573839937037175*^9, 3.573840114340904*^9}}]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{624, 898},
+WindowMargins->{{Automatic, 68}, {Automatic, 46}},
+PrintingCopies->1,
+PrintingPageRange->{32000, 32000},
+PrintingOptions->{"Magnification"->1.,
+"PaperOrientation"->"Portrait",
+"PaperSize"->{612, 792}},
+ShowSelection->True,
+Magnification->1.25,
+FrontEndVersion->"8.0 for Microsoft Windows (64-bit) (October 6, 2011)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 132, 3, 62, "Subtitle"],
+Cell[714, 27, 99, 1, 35, "Subsubtitle"],
+Cell[CellGroupData[{
+Cell[838, 32, 101, 1, 46, "Subsection"],
+Cell[942, 35, 23598, 665, 1746, "Text"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[24577, 705, 104, 1, 46, "Subsection"],
+Cell[24684, 708, 524, 11, 159, "Text"],
+Cell[CellGroupData[{
+Cell[25233, 723, 109, 1, 32, "Subsubsection"],
+Cell[25345, 726, 869, 24, 129, "Input"],
+Cell[26217, 752, 2316, 52, 193, "Input"],
+Cell[28536, 806, 82, 1, 34, "Text"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[28655, 812, 97, 1, 32, "Subsubsection"],
+Cell[CellGroupData[{
+Cell[28777, 817, 1205, 29, 124, "Input"],
+Cell[29985, 848, 2595, 50, 529, "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[32641, 905, 216, 4, 69, "Subsection"],
+Cell[CellGroupData[{
+Cell[32882, 913, 134, 3, 32, "Subsubsection"],
+Cell[33019, 918, 1084, 35, 125, "Input"],
+Cell[34106, 955, 419, 9, 80, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[34562, 969, 109, 1, 32, "Subsubsection"],
+Cell[34674, 972, 390, 12, 75, "Input"],
+Cell[35067, 986, 2639, 74, 299, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[37743, 1065, 99, 1, 32, "Subsubsection"],
+Cell[CellGroupData[{
+Cell[37867, 1070, 1822, 45, 278, "Input"],
+Cell[39692, 1117, 3141, 59, 529, "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[42894, 1183, 196, 4, 46, "Subsection"],
+Cell[CellGroupData[{
+Cell[43115, 1191, 107, 1, 32, "Subsubsection"],
+Cell[43225, 1194, 3465, 86, 420, "Input"],
+Cell[46693, 1282, 2195, 43, 168, "Input"],
+Cell[48891, 1327, 3030, 78, 344, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[51958, 1410, 97, 1, 32, "Subsubsection"],
+Cell[52058, 1413, 293, 5, 76, "Text"],
+Cell[CellGroupData[{
+Cell[52376, 1422, 4110, 94, 630, "Input"],
+Cell[56489, 1518, 4262, 80, 565, "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[60812, 1605, 210, 3, 46, "Subsection"],
+Cell[CellGroupData[{
+Cell[61047, 1612, 106, 1, 32, "Subsubsection"],
+Cell[61156, 1615, 1495, 35, 100, "Input"],
+Cell[62654, 1652, 246, 5, 55, "Text"],
+Cell[62903, 1659, 416, 8, 35, "Input"],
+Cell[63322, 1669, 2160, 54, 168, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[65519, 1728, 202, 3, 32, "Subsubsection"],
+Cell[65724, 1733, 3879, 102, 476, "Input"],
+Cell[69606, 1837, 417, 11, 80, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[70060, 1853, 122, 1, 32, "Subsubsection"],
+Cell[70185, 1856, 429, 7, 76, "Text"],
+Cell[70617, 1865, 1307, 25, 256, "Input"],
+Cell[CellGroupData[{
+Cell[71949, 1894, 722, 19, 102, "Input"],
+Cell[72674, 1915, 336, 7, 84, "Output"]
+}, Open  ]],
+Cell[73025, 1925, 871, 18, 102, "Input"],
+Cell[73899, 1945, 885, 23, 84, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[74821, 1973, 100, 1, 32, "Subsubsection"],
+Cell[CellGroupData[{
+Cell[74946, 1978, 1615, 44, 278, "Input"],
+Cell[76564, 2024, 360, 7, 58, "Output"],
+Cell[76927, 2033, 3615, 67, 276, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[80579, 2105, 1363, 39, 256, "Input"],
+Cell[81945, 2146, 357, 7, 58, "Output"],
+Cell[82305, 2155, 3493, 64, 271, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[85835, 2224, 1320, 38, 256, "Input"],
+Cell[87158, 2264, 354, 7, 58, "Output"],
+Cell[87515, 2273, 3495, 64, 271, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[91047, 2342, 1277, 37, 234, "Input"],
+Cell[92327, 2381, 354, 7, 58, "Output"],
+Cell[92684, 2390, 3490, 64, 271, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[96211, 2459, 1268, 37, 234, "Input"],
+Cell[97482, 2498, 358, 7, 58, "Output"],
+Cell[97843, 2507, 3493, 64, 271, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[101385, 2577, 100, 1, 32, "Subsubsection"],
+Cell[101488, 2580, 440, 11, 57, "Text"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
